@@ -24,27 +24,38 @@ class v_viewtype: ViewController{
     }
     
     @IBAction func cb_tableview_clicked(_ sender: Any) {
+        of_select_tableview()
+   }
+ 
+    @IBAction func cb_collectionview_clicked(_ sender: Any) {
+        of_select_collectionview()
+    }
+    
+    @IBAction func cb_singleview_clicked(_ sender: Any) {
+        of_select_singleview()
+    }
+    
+    
+    func of_select_tableview(){
         cb_tableview.alphaValue = 1
         cb_collectionview.alphaValue = 0.2
         cb_singleview.alphaValue = 0.2
         cbx_search.isEnabled = true
         cb_search_field.isEnabled = true
         gi_viewtype = 1
+    }
 
-   }
-    
-    @IBAction func cb_collectionview_clicked(_ sender: Any) {
+    func of_select_collectionview(){
         cb_tableview.alphaValue = 0.2
         cb_collectionview.alphaValue = 1
         cb_singleview.alphaValue = 0.2
         cbx_search.isEnabled = true
         cb_search_field.isEnabled = true
         gi_viewtype = 2
-
-  }
+    }
     
     
-    @IBAction func cb_singleview_clicked(_ sender: Any) {
+    func of_select_singleview(){
         cb_tableview.alphaValue = 0.2
         cb_collectionview.alphaValue = 0.2
         cb_singleview.alphaValue = 1
@@ -53,8 +64,42 @@ class v_viewtype: ViewController{
         gi_viewtype = 3
     }
     
-    
   
+   
+    override func prepare(for segue: NSStoryboardSegue, sender: Any? ) {
+        let target = segue.destinationController as! v_columns
+        target.ii_search_picture = sender as! Int
+    }
+    
+    @IBAction func cb_noview_clicked(_ sender : NSButton) {
+        if sender.state == NSButton.StateValue.on{
+            cb_tableview.alphaValue = 0.2
+            cb_collectionview.alphaValue = 0.2
+            cb_singleview.alphaValue = 0.2
+            cbx_search.isEnabled = false
+            cb_search_field.isEnabled = false
+            cb_picture.isEnabled = false
+            cb_picture_field.isEnabled = false
+            gb_create_view = false
+            
+        }else{
+            gb_create_view = true
+            cb_picture_field.isEnabled = true
+            gb_create_view = true
+
+            switch gi_viewtype{
+            case 1:
+                of_select_tableview()
+            case 2:
+                of_select_collectionview()
+            default:
+                of_select_singleview()
+            }
+
+        }
+    }
+    
+    
     @IBAction func cbx_search_clicked(_ sender: NSButton) {
         if sender.state == NSButton.StateValue.on{
             cb_search_field.isEnabled = true
@@ -83,11 +128,7 @@ class v_viewtype: ViewController{
     @IBAction func cb_picture_field_clicked(_ sender: NSButton) {
         performSegue(withIdentifier: "toColumn", sender: 2)
     }
-    
-    override func prepare(for segue: NSStoryboardSegue, sender: Any? ) {
-        let target = segue.destinationController as! v_columns
-        target.ii_search_picture = sender as! Int
-    }
-    
+ 
+
     
 }

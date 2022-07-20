@@ -70,6 +70,11 @@ class v_sql: ViewController{
             return -1
         }
         
+        if gs_template_folder == ""{
+            messagebox("Error","Please click Settings button to enter template folder!")
+            return -1
+        }
+        
         let ls_sql = (tv_sql.documentView! as! NSTextView).string.of_trim()
         UserDefaults.standard.set(ls_sql, forKey: "last_sql")
         gs_appName = tf_app_name.stringValue

@@ -26,6 +26,10 @@ func of_update_storyboard(){
         return
     }
 
+    if gb_create_view == false{
+        return
+    }
+  
 
     let ls_textfield = "<textField opaque=\"NO\" enabled=\"NO\" contentMode=\"scaleToFill\" contentHorizontalAlignment=\"left\" contentVerticalAlignment=\"center\" " +
         "borderStyle=\"roundedRect\" textAlignment=\"natural\" minimumFontSize=\"17\" translatesAutoresizingMaskIntoConstraints=\"NO\" id=\"#ID30#\">\r\n\t\t\t\t" +

@@ -154,23 +154,32 @@ func of_parseSql(_ as_sql: String){
     for var columnName in ls_columnsArray
     {
         columnName = columnName.of_trim()!
-                                                  //(select x from x) as isim
-        if (columnName.contains(" as ")){           // "murat" as isim
+        //(select x from x) as isim veya "murat" as isim
+        if (columnName.contains(" as ")){
             ls_col = columnName.of_right(" as ")!
             ls_table = ls_sub_table
             ls_col_in_db = ls_sub_colname
             ls_sub_table = ""
             ls_sub_colname = ""
         }
-        else if (columnName.contains("(") || columnName.contains(")")){ //ISNULL(1, 2)
-            let ls_sub_select = columnName.of_right("select")!
-            ls_sub_colname = ls_sub_select.of_left("from")!.of_trim()!
-            let ls_sub_from = columnName.of_right("from")!
-            ls_sub_table = ls_sub_from.of_left("where")!.of_trim()!
-            continue}
-        else if (columnName.contains(".")){         //personnel.isim
-            ls_col = columnName.of_right(".")!
-            ls_table = columnName.of_left(".")!
+        //virgül varsa virgüle kadar olan kısmı alır ISNULL(1, 2) as isim   -->ISNULL(1,
+        else if (columnName.contains("(") || columnName.contains(")")){
+            if columnName.contains("select"){
+                let ls_sub_select = columnName.of_right("select")!
+                ls_sub_colname = ls_sub_select.of_left("from")!.of_trim()!
+                let ls_sub_from = columnName.of_right("from")!
+                ls_sub_table = ls_sub_from.of_left("where")!.of_trim()!
+                continue
+            }else{ //IFNULL(a,b)
+                let ls_sub_select = columnName.of_right("(")!
+                ls_sub_colname = ls_sub_select.of_left(",")!.of_trim()!
+                ls_sub_colname = ls_sub_select.of_left(")")!.of_trim()!
+                (ls_sub_table, ls_sub_colname) = of_parse_colname(ls_sub_colname)
+            }
+            continue
+        //message.isim
+        }else if (columnName.contains(".")){
+            (ls_table, ls_col) = of_parse_colname(columnName)
             ls_sub_table = ""
             ls_sub_colname = ""
         }else{
@@ -198,7 +207,16 @@ func of_parseSql(_ as_sql: String){
     }
     
     
-
+    func of_parse_colname(_ columnName: String) -> (tablename:String, colname:String){
+        if columnName.contains(".") {
+            let ls_colname = columnName.of_right(".")!
+            let ls_table = columnName.of_left(".")!
+            return (tablename: ls_table, colname:ls_colname)
+        }
+        return (tablename: "", colname:columnName)
+    }
+    
+        
     //*****************************************************************************************
     //sqldeki column adlarını veritabanından okunan structurda bulup yeni bir structa kopyala
     SqlColumns = [column]()

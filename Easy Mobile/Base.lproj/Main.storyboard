@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -674,7 +675,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Magic_Mobile" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Easy_Mobile" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -704,7 +705,7 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController id="XfG-lQ-9wD" customClass="v_main" customModule="Magic_Mobile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="v_main" customModule="Easy_Mobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="981" height="540"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -778,7 +779,7 @@
         <!--settings-->
         <scene sceneID="HS8-ae-a8i">
             <objects>
-                <viewController id="mna-rj-e3o" customClass="v_settings" customModule="Magic_Mobile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="mna-rj-e3o" customClass="v_settings" customModule="Easy_Mobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="cuM-nD-ysp">
                         <rect key="frame" x="0.0" y="0.0" width="607" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -855,7 +856,7 @@
         <!--sql-->
         <scene sceneID="I6l-6M-SSc">
             <objects>
-                <viewController storyboardIdentifier="v_sql" id="vhF-4F-OvE" customClass="v_sql" customModule="Magic_Mobile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="v_sql" id="vhF-4F-OvE" customClass="v_sql" customModule="Easy_Mobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="2Jz-1X-sAe">
                         <rect key="frame" x="0.0" y="0.0" width="979" height="495"/>
                         <subviews>
@@ -887,9 +888,9 @@
                                 <rect key="frame" x="10" y="12" width="765" height="473"/>
                                 <clipView key="contentView" drawsBackground="NO" id="Lfc-BN-yJs">
                                     <rect key="frame" x="0.0" y="0.0" width="765" height="473"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" fieldEditor="YES" findStyle="panel" spellingCorrection="YES" smartInsertDelete="YES" id="TjC-K5-RP9">
+                                        <textView importsGraphics="NO" verticallyResizable="YES" fieldEditor="YES" findStyle="panel" spellingCorrection="YES" smartInsertDelete="YES" id="TjC-K5-RP9">
                                             <rect key="frame" x="0.0" y="0.0" width="765" height="473"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1913,7 +1914,7 @@
         <!--updatable-->
         <scene sceneID="Bw5-e3-xqj">
             <objects>
-                <viewController storyboardIdentifier="v_updatable" id="VsR-7j-RRC" customClass="v_updatable" customModule="Magic_Mobile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="v_updatable" id="VsR-7j-RRC" customClass="v_updatable" customModule="Easy_Mobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="086-C2-pp1">
                         <rect key="frame" x="0.0" y="0.0" width="980" height="495"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1923,7 +1924,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" id="teO-Lt-MNQ">
                                     <rect key="frame" x="1" y="1" width="356" height="451"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" rowSizeStyle="automatic" headerView="D2A-3b-kAQ" viewBased="YES" id="lCx-Td-lBq">
                                             <rect key="frame" x="0.0" y="0.0" width="356" height="423"/>
@@ -1986,7 +1987,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" id="k9p-Qx-uZz">
                                     <rect key="frame" x="1" y="1" width="368" height="451"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" rowHeight="28" rowSizeStyle="automatic" headerView="zYS-sX-v5N" viewBased="YES" id="P3N-jY-NxQ">
                                             <rect key="frame" x="0.0" y="0.0" width="368" height="423"/>
@@ -2100,7 +2101,7 @@
         <!--viewtype-->
         <scene sceneID="Zyz-qW-ptS">
             <objects>
-                <viewController storyboardIdentifier="v_viewtype" id="7VE-oh-6Ot" customClass="v_viewtype" customModule="Magic_Mobile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="v_viewtype" id="7VE-oh-6Ot" customClass="v_viewtype" customModule="Easy_Mobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ihv-Dx-EgI">
                         <rect key="frame" x="0.0" y="0.0" width="981" height="495"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -2198,6 +2199,17 @@
                                     <action selector="cb_picture_clicked:" target="7VE-oh-6Ot" id="lrV-Wm-yZO"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SFc-9E-BJF">
+                                <rect key="frame" x="785" y="310" width="140" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="No View" bezelStyle="regularSquare" imagePosition="left" inset="2" id="E6O-RN-nqM">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cb_noview_clicked:" target="7VE-oh-6Ot" id="S5p-j2-ClW"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r8H-7L-OAO">
                                 <rect key="frame" x="778" y="344" width="189" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -2224,12 +2236,12 @@
                 </viewController>
                 <customObject id="vdd-Vf-rXD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="580" y="1525"/>
+            <point key="canvasLocation" x="579.5" y="1524.5"/>
         </scene>
         <!--Select Search Column-->
         <scene sceneID="QWb-qI-Brd">
             <objects>
-                <viewController title="Select Search Column" id="GAm-ZP-ikn" customClass="v_columns" customModule="Magic_Mobile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Select Search Column" id="GAm-ZP-ikn" customClass="v_columns" customModule="Easy_Mobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="PmU-h5-p4k">
                         <rect key="frame" x="0.0" y="0.0" width="318" height="331"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2239,7 +2251,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" id="x69-Ob-iN6">
                                     <rect key="frame" x="1" y="1" width="296" height="307"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" rowHeight="22" rowSizeStyle="automatic" headerView="Shc-Qf-OIa" viewBased="YES" id="4wE-1g-gbg">
                                             <rect key="frame" x="0.0" y="0.0" width="296" height="279"/>
@@ -2314,7 +2326,7 @@
         <!--Database Connection-->
         <scene sceneID="2he-Um-3FA">
             <objects>
-                <viewController title="Database Connection" id="JdG-He-P2p" customClass="v_connect" customModule="Magic_Mobile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Database Connection" id="JdG-He-P2p" customClass="v_connect" customModule="Easy_Mobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="YFG-Ev-Ss8">
                         <rect key="frame" x="0.0" y="0.0" width="687" height="277"/>
                         <autoresizingMask key="autoresizingMask"/>

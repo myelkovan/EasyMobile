@@ -39,6 +39,7 @@ var gs_storyboard_path = ""
 var gs_created_storyboard_path = ""
 var gs_picture_field = ""
 var gb_reset_storyboard = true
+var gb_create_view = true
 
 
 struct column{
@@ -196,6 +197,9 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
             }
         }
     
+        
+        
+        
         gs_last_appName = gs_appName
         of_create_php()
         of_create_swift()

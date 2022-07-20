@@ -25,144 +25,145 @@ func of_create_swift(){
     
     
     //CELL ************************************************************************************
-    if gi_viewtype < 3 {
-        
-        // cell için Outlet satırları ve veri yükleyen satırlar oluşturuluyor
-        for row in SqlColumns{
+    if gb_create_view{
+        if gi_viewtype < 3  {
             
-            if row.column_name! == gs_picture_field{
-                ls_prefix = "p_"
-                ls_object = "UIImageView!"
-            }else{
-                if gsA_updatable_columns.contains(row.column_name!){
-                    if row.column_lenght! < 50{
-                        ls_prefix = "tf_"
-                        ls_object = "UITextField!"
+            // cell için Outlet satırları ve veri yükleyen satırlar oluşturuluyor
+            for row in SqlColumns{
+                
+                if row.column_name! == gs_picture_field{
+                    ls_prefix = "p_"
+                    ls_object = "UIImageView!"
+                }else{
+                    if gsA_updatable_columns.contains(row.column_name!){
+                        if row.column_lenght! < 50{
+                            ls_prefix = "tf_"
+                            ls_object = "UITextField!"
+                        }else{
+                            ls_prefix = "tf_"
+                            ls_object = "UITextView!"
+                        }
                     }else{
-                        ls_prefix = "tf_"
-                        ls_object = "UITextView!"
+                        ls_prefix = "lb_"
+                        ls_object = "UILabel!"
                     }
-                }else{
-                    ls_prefix = "lb_"
-                    ls_object = "UILabel!"
+                }
+                ls_outlet_list += "@IBOutlet weak var " + ls_prefix + row.column_name! + ":" + ls_object + "\r\t"
+
+                
+                //FIXME diğer tiplere dönüşüm ele alınmalı
+                if row.column_name! != gs_picture_field{
+                    if of_gettype(row.column_type!) != "String"{
+                        ls_value_set += ls_prefix + row.column_name! + ".text = String(row." + row.column_name! + ")\r\t\t\t"
+                    }else{
+                        ls_value_set += ls_prefix + row.column_name! + ".text = row." + row.column_name! + "\r\t\t\t"
+                    }
                 }
             }
-            ls_outlet_list += "@IBOutlet weak var " + ls_prefix + row.column_name! + ":" + ls_object + "\r\t"
-
-            
-            //FIXME diğer tiplere dönüşüm ele alınmalı
-            if row.column_name! != gs_picture_field{
-                if of_gettype(row.column_type!) != "String"{
-                    ls_value_set += ls_prefix + row.column_name! + ".text = String(row." + row.column_name! + ")\r\t\t\t"
-                }else{
-                    ls_value_set += ls_prefix + row.column_name! + ".text = row." + row.column_name! + "\r\t\t\t"
-                }
+                
+                
+            //image seçilmişse image okuma komutu ekle
+            if gs_picture_field.count > 0 {
+                let ls_picture = "p_" + gs_picture_field + ".loadImage(String(row." + gs_picture_field + ") + \".JPG\"" + ")" + "\r\t\t\t"
+                ls_value_set += ls_picture
             }
-        }
+
+            //en sona eklenen fazla satır başı siliniyor
+            ls_value_set = ls_value_set.of_left("\r\t\t\t",lastpos: true)!
+
+
+            //template'i oku
+            ls_template = file().of_read( gs_template_folder + "/c_sample.txt")
+            if ls_template == ""{
+                messagebox("Error", gs_template_folder + "/select.php could not be read!")
+                return
+            }
+           
             
             
-        //image seçilmişse image okuma komutu ekle
-        if gs_picture_field.count > 0 {
-            let ls_picture = "p_" + gs_picture_field + ".loadImage(String(row." + gs_picture_field + ") + \".JPG\"" + ")" + "\r\t\t\t"
-            ls_value_set += ls_picture
+            //standart değişiklikleri yap
+            ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "c_" + gs_appName)
+            ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL_NAME#", with: "d_" + gs_appName)
+            ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
+            ls_template = ls_template.replacingOccurrences(of: "#OBJECT_VALUE_SET#", with: ls_value_set)
+
+            
+            if gi_viewtype == 2{
+                ls_template = ls_template.replacingOccurrences(of: "UITableViewCell", with: "UICollectionViewCell")
+            }
+
+            file().of_write(filename: "SWIFT/" + gs_appName + "/" + "c_" + gs_appName + ".swift", content :ls_template)
         }
+            
+ 
 
-        //en sona eklenen fazla satır başı siliniyor
-        ls_value_set = ls_value_set.of_left("\r\t\t\t",lastpos: true)!
 
-
+  
+    
+   
+    
+    
+        //TABLEVIEW - VIEW ***********************************************************************
         //template'i oku
-        ls_template = file().of_read( gs_template_folder + "/c_sample.txt")
+        if gi_viewtype == 3 {
+            ls_template = file().of_read( gs_template_folder + "/v_view.txt")
+        }else{
+            ls_template = file().of_read( gs_template_folder + "/v_tableview.txt")
+        }
+        
         if ls_template == ""{
             messagebox("Error", gs_template_folder + "/select.php could not be read!")
             return
         }
-       
-        
-        
-        //standart değişiklikleri yap
-        ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "c_" + gs_appName)
-        ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL_NAME#", with: "d_" + gs_appName)
-        ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
-        ls_template = ls_template.replacingOccurrences(of: "#OBJECT_VALUE_SET#", with: ls_value_set)
-
-        
-        if gi_viewtype == 2{
-            ls_template = ls_template.replacingOccurrences(of: "UITableViewCell", with: "UICollectionViewCell")
-        }
-
-        file().of_write(filename: "SWIFT/" + gs_appName + "/" + "c_" + gs_appName + ".swift", content :ls_template)
-    }
-        
- 
-
-
-  
-    
-   
-    
-    
-    //TABLEVIEW - VIEW ***********************************************************************
-    //template'i oku
-    if gi_viewtype == 3{
-        ls_template = file().of_read( gs_template_folder + "/v_view.txt")
-    }else{
-        ls_template = file().of_read( gs_template_folder + "/v_tableview.txt")
-    }
-    
-    if ls_template == ""{
-        messagebox("Error", gs_template_folder + "/select.php could not be read!")
-        return
-    }
-  
-    var ls_search_field = gs_search_field
-    if gs_search_field_type == "String"{
-        ls_search_field = "$0." + ls_search_field + ".lowercased()"
-    }else{
-        ls_search_field = "String($0." + ls_search_field + ")"
-    }
-   
-
-    //view için outlet listesi oluştur
-    ls_outlet_list = ""
-    if gs_search_field.count > 0{
-        ls_template = ls_template.replacingOccurrences(of: "UITableViewController", with: "UITableViewController, UISearchBarDelegate")
-        ls_outlet_list = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
-    }
-
-    //Genel değişiklikleri yap
-    ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
-    ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "v_" + gs_appName)
-    ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL#", with: "d_" + gs_appName)
-    ls_template = ls_template.replacingOccurrences(of: "#CELL_NAME#", with: "c_" + gs_appName)
-    ls_template = ls_template.replacingOccurrences(of: "#SERACH_FIELD#", with: ls_search_field)
-    
-    
- 
-    if gi_viewtype == 2{
-        ls_template = ls_template.replacingOccurrences(of: "UITableView", with: "UICollectionView")
-        ls_template = ls_template.replacingOccurrences(of: "tableView", with: "collectionView")
-    }
-    
-    
-    //search işlemleri
-    if gi_viewtype < 3{
-        let li_pos1 = ls_template.of_pos("#SEARCH#")
-        let li_pos2 = ls_template.of_pos("#ENDSEARCH#")
-        
-        if gs_search_field.count == 0 {
-            ls_template.of_replace(starting: li_pos1, to: li_pos2 + 11, as_text: "")
+      
+        var ls_search_field = gs_search_field
+        if gs_search_field_type == "String"{
+            ls_search_field = "$0." + ls_search_field + ".lowercased()"
         }else{
-            ls_template = ls_template.replacingOccurrences(of: "#SEARCH#", with: "")
-            ls_template = ls_template.replacingOccurrences(of: "#ENDSEARCH#", with: "")
+            ls_search_field = "String($0." + ls_search_field + ")"
         }
-    }
-        
-    //Save file
-    file().of_write(filename: "SWIFT/" + gs_appName + "/" + "v_" + gs_appName + ".swift", content :ls_template)
+       
 
-    
-    
+        //view için outlet listesi oluştur
+        ls_outlet_list = ""
+        if gs_search_field.count > 0{
+            ls_template = ls_template.replacingOccurrences(of: "UITableViewController", with: "UITableViewController, UISearchBarDelegate")
+            ls_outlet_list = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
+        }
+
+        //Genel değişiklikleri yap
+        ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
+        ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "v_" + gs_appName)
+        ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL#", with: "d_" + gs_appName)
+        ls_template = ls_template.replacingOccurrences(of: "#CELL_NAME#", with: "c_" + gs_appName)
+        ls_template = ls_template.replacingOccurrences(of: "#SERACH_FIELD#", with: ls_search_field)
+        
+        
+     
+        if gi_viewtype == 2{
+            ls_template = ls_template.replacingOccurrences(of: "UITableView", with: "UICollectionView")
+            ls_template = ls_template.replacingOccurrences(of: "tableView", with: "collectionView")
+        }
+        
+        
+        //search işlemleri
+        if gi_viewtype < 3{
+            let li_pos1 = ls_template.of_pos("#SEARCH#")
+            let li_pos2 = ls_template.of_pos("#ENDSEARCH#")
+            
+            if gs_search_field.count == 0 {
+                ls_template.of_replace(starting: li_pos1, to: li_pos2 + 11, as_text: "")
+            }else{
+                ls_template = ls_template.replacingOccurrences(of: "#SEARCH#", with: "")
+                ls_template = ls_template.replacingOccurrences(of: "#ENDSEARCH#", with: "")
+            }
+        }
+            
+        //Save file
+        file().of_write(filename: "SWIFT/" + gs_appName + "/" + "v_" + gs_appName + ".swift", content :ls_template)
+
+        
+    }
     
     
         
@@ -210,9 +211,9 @@ func of_create_swift(){
             }
         }else{ //FIXME diğer türler dikkate alınmalı
             if lb_null{
-                ls_col_with_json += ls_colname + " :Int(row[\"" + ls_colname + "\"] as! String),\r\n\t\t\t\t\t\t\t"
+                ls_col_with_json += ls_colname + " :"+ls_type+"(row[\"" + ls_colname + "\"] as! String),\r\n\t\t\t\t\t\t\t"
             }else{
-                ls_col_with_json += ls_colname + " :Int(row[\"" + ls_colname + "\"] as! String)!,\r\n\t\t\t\t\t\t\t"
+                ls_col_with_json += ls_colname + " :"+ls_type+"(row[\"" + ls_colname + "\"] as! String)!,\r\n\t\t\t\t\t\t\t"
             }
         }
     }
