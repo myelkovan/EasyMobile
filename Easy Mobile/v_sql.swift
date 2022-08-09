@@ -36,14 +36,18 @@ class v_sql: ViewController{
         let ls_select_php_path = of_getFolderName(pickFolder :false)
            
         var ls_file = ls_select_php_path.of_right("/", lastpos: true)
+        if ls_file!.count == 0{
+            return
+        }
+        
+
         if ls_select_php_path.of_right("_")?.lowercased() != "select.php"{
             messagebox("Error", "You should select PHP file for select SQL")
             return
         }
  
-        var ls_php_content = file().of_read(ls_select_php_path)
+        let ls_php_content = file().of_read(ls_select_php_path)
         if ls_php_content == ""{
-            messagebox("Error", ls_select_php_path + " could not be read!")
             return
         }
    

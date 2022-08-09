@@ -88,7 +88,6 @@ func of_update_storyboard(){
 
     ls_template = file().of_read(ls_file)
     if ls_template == ""{
-        messagebox("Error", ls_file + " could not be read!")
         return
     }
 

@@ -8,6 +8,7 @@
 import Foundation
 
 class file{
+
     
     func of_read(_ as_filename:String) -> String{
     

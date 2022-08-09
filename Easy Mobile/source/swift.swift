@@ -73,9 +73,8 @@ func of_create_swift(){
 
 
             //template'i oku
-            ls_template = file().of_read( gs_template_folder + "/c_sample.txt")
+            ls_template = of_read_file( gs_template_folder + "c_sample.txt")
             if ls_template == ""{
-                messagebox("Error", gs_template_folder + "/select.php could not be read!")
                 return
             }
            
@@ -106,14 +105,13 @@ func of_create_swift(){
         //TABLEVIEW - VIEW ***********************************************************************
         //template'i oku
         if gi_viewtype == 3 {
-            ls_template = file().of_read( gs_template_folder + "/v_view.txt")
+            ls_template = of_read_file( gs_template_folder + "v_view.txt")
         }else{
-            ls_template = file().of_read( gs_template_folder + "/v_tableview.txt")
+            ls_template = of_read_file( gs_template_folder + "v_tableview.txt")
         }
         
         if ls_template == ""{
-            messagebox("Error", gs_template_folder + "/select.php could not be read!")
-            return
+             return
         }
       
         var ls_search_field = gs_search_field
@@ -168,10 +166,9 @@ func of_create_swift(){
     
         
     //DATAOBJECT************************************************************
-    ls_template = file().of_read( gs_template_folder + "/d_sample.txt")
+    ls_template = of_read_file( gs_template_folder + "d_sample.txt")
     if ls_template == ""{
-        messagebox("Error", gs_template_folder + "/d_sample.txt could not be read!")
-        return
+         return
     }
     var ls_col_with_type = ""
     var ls_col_with_json = ""

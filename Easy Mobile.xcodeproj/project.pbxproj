@@ -39,6 +39,7 @@
 		B450B421286DD0EB008A5955 /* swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = B450B420286DD0EB008A5955 /* swift.swift */; };
 		B45AC4382860F4E5008BAE6A /* php.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45AC4372860F4E5008BAE6A /* php.swift */; };
 		B4C6E93028733E2300DE918F /* v_connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6E92F28733E2300DE918F /* v_connect.swift */; };
+		B4F3550928966A610076F1B9 /* globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F3550828966A610076F1B9 /* globals.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		B45AC4372860F4E5008BAE6A /* php.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = php.swift; sourceTree = "<group>"; };
 		B4C6E92F28733E2300DE918F /* v_connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = v_connect.swift; sourceTree = "<group>"; };
 		B4C76C9C288064CE009F5344 /* Easy_Mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Easy_Mobile.entitlements; sourceTree = "<group>"; };
+		B4F3550828966A610076F1B9 /* globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = globals.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				B450B41728685A92008A5955 /* v_updatable.swift */,
 				B450B4192868F705008A5955 /* v_viewtype.swift */,
 				B4213F2A28702D9A00BA96CD /* v_columns.swift */,
+				B4F3550828966A610076F1B9 /* globals.swift */,
 				B47A16B72880125A00B04F7B /* source */,
 				B47A16B82880128600B04F7B /* Global */,
 				B43D9F81285CE5C7002C998D /* MySQLDriver */,
@@ -265,6 +268,7 @@
 				B4C6E93028733E2300DE918F /* v_connect.swift in Sources */,
 				B43D9F96285CE5E4002C998D /* tests.swift in Sources */,
 				B43D9F9F285DABF8002C998D /* sql.swift in Sources */,
+				B4F3550928966A610076F1B9 /* globals.swift in Sources */,
 				B450B41228664238008A5955 /* v_settings.swift in Sources */,
 				B440EEB92870EF8500E23585 /* storyboard.swift in Sources */,
 				B450B4142866E507008A5955 /* system.swift in Sources */,

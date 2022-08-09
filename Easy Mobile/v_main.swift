@@ -11,49 +11,6 @@ import SwiftUI
 
 
 
-var DbColumns = [column]()
-var SqlColumns = [column]()
-var gsA_parameters = [String]()
-var gsA_table_names = [String]()
-var gs_updatable_table = ""
-var gs_updatable_columns = ""
-var gs_pk = ""
-var gs_pk_type = ""
-var gsA_updatable_columns = [String]()
-var gs_appName = ""
-var gs_last_appName = ""
-var gb_select=false
-var gb_delete=false
-var gb_insert=false
-var gs_select_sql = ""
-var gs_insert_sql = ""
-var gs_delete_sql = ""
-var gs_update_sql = ""
-var ii_page = 1
-var gi_viewtype = 1
-var gs_search_field = ""
-var gs_search_field_type = ""
-var gs_template_folder = ""
-var gs_project_folder = ""
-var gs_storyboard_path = ""
-var gs_created_storyboard_path = ""
-var gs_picture_field = ""
-var gb_reset_storyboard = true
-var gb_create_view = true
-
-
-struct column{
-    var table_name: String
-    var column_name: String?
-    var column_type: String?
-    var column_default : String?
-    var is_null : String?
-    var data_type : String?
-    var column_lenght : Int?
-    var column_precision : Int?
-    var key: String?
-}
-
 
 
 
@@ -95,7 +52,7 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         gs_template_folder = UserDefaults.standard.string(forKey: "template_folder") ?? ""
-        gs_project_folder = UserDefaults.standard.string(forKey: "project_folder") ?? ""
+        gs_default_folder = UserDefaults.standard.string(forKey: "default_folder") ?? ""
         self.view.window?.styleMask.remove(NSWindow.StyleMask.resizable)
         preferredContentSize = view.frame.size
         add(asChildViewController: v_sql)
