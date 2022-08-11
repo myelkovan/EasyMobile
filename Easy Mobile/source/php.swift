@@ -21,7 +21,7 @@ func of_create_php(){
     
     //Select ********************************************************************
    if (gb_select){
-        ls_template = of_read_file( gs_template_folder + "select.php")
+        ls_template = of_read_file("select.php")
         if ls_template == ""{
             return
         }
@@ -46,7 +46,7 @@ func of_create_php(){
     
     //Delete ********************************************************************
     if (gb_delete){
-        ls_template = of_read_file( gs_template_folder + "delete.php")
+        ls_template = of_read_file("delete.php")
         if ls_template == ""{
             return
         }
@@ -66,7 +66,7 @@ func of_create_php(){
     
     //Insert ********************************************************************
     if (gb_insert){
-        ls_template = of_read_file( gs_template_folder + "insert.php")
+        ls_template = of_read_file("insert.php")
         if ls_template == ""{
             return
         }

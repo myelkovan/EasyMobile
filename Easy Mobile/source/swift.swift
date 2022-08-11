@@ -73,7 +73,7 @@ func of_create_swift(){
 
 
             //template'i oku
-            ls_template = of_read_file( gs_template_folder + "c_sample.txt")
+            ls_template = of_read_file("c_sample.txt")
             if ls_template == ""{
                 return
             }
@@ -105,9 +105,9 @@ func of_create_swift(){
         //TABLEVIEW - VIEW ***********************************************************************
         //template'i oku
         if gi_viewtype == 3 {
-            ls_template = of_read_file( gs_template_folder + "v_view.txt")
+            ls_template = of_read_file("v_view.txt")
         }else{
-            ls_template = of_read_file( gs_template_folder + "v_tableview.txt")
+            ls_template = of_read_file("v_tableview.txt")
         }
         
         if ls_template == ""{
@@ -166,7 +166,7 @@ func of_create_swift(){
     
         
     //DATAOBJECT************************************************************
-    ls_template = of_read_file( gs_template_folder + "d_sample.txt")
+    ls_template = of_read_file("d_sample.txt")
     if ls_template == ""{
          return
     }

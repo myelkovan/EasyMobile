@@ -56,16 +56,16 @@ struct column{
 
 
 func of_read_file(_ filename: String) ->String{
-    var ls_path = gs_template_folder + "/" + filename
+    var ls_path = gs_template_folder + filename
     
     
     let fileManager: FileManager = .default
-       // try! fileManager
-        //    .url(for: .desktopDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        try! fileManager
+            .url(for: .desktopDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
     
       
     if fileManager.fileExists(atPath: ls_path) == false {
-        ls_path = gs_default_folder + "/" + filename
+        ls_path = gs_default_folder + filename
     }
 
     let ls_template = file().of_read( ls_path)
