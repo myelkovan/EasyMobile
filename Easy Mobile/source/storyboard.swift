@@ -183,7 +183,10 @@ func of_update_storyboard(){
         gs_storyboard_path = of_getFolderName(pickFolder :false)
         ls_storyboard_path = gs_storyboard_path
     }
-
+    if ls_storyboard_path == "" || ls_storyboard_path == nil{
+        return
+    }
+    
     if gb_reset_storyboard {
         ls_storyboard_path = gs_storyboard_path
     }else{
