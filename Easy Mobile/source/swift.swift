@@ -64,7 +64,7 @@ func of_create_swift(){
                 
             //image seçilmişse image okuma komutu ekle
             if gs_picture_field.count > 0 {
-                let ls_picture = "p_" + gs_picture_field + ".loadImage(String(row." + gs_picture_field + ") + \".JPG\"" + ")" + "\r\t\t\t"
+                let ls_picture = "p_" + gs_picture_field + ".loadImage(String(row." + gs_picture_field + "))" + "\r\t\t\t"
                 ls_value_set += ls_picture
             }
 
@@ -116,9 +116,9 @@ func of_create_swift(){
       
         var ls_search_field = gs_search_field
         if gs_search_field_type == "String"{
-            ls_search_field = "$0." + ls_search_field + ".lowercased()"
+            ls_search_field = ls_search_field + ".lowercased()"
         }else{
-            ls_search_field = "String($0." + ls_search_field + ")"
+            ls_search_field = "String(row." + ls_search_field + ")"
         }
        
 
