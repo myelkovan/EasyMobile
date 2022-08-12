@@ -125,8 +125,8 @@ func of_create_swift(){
         //view için outlet listesi oluştur
         ls_outlet_list = ""
         if gs_search_field.count > 0{
-            ls_template = ls_template.replacingOccurrences(of: "UITableViewController", with: "UITableViewController, UISearchBarDelegate")
-            ls_outlet_list = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
+            //ls_template = ls_template.replacingOccurrences(of: "UITableViewController", with: "UITableViewController, UISearchBarDelegate")
+            //ls_outlet_list = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
         }
 
         //Genel değişiklikleri yap
@@ -288,10 +288,8 @@ func of_gettype (_ as_type: String) -> String {
         return "Int"
     case "FLOAT":
         return "Float"
-    case "DOUBLE":
+    case "DECIMAL","DOUBLE":
         return "Double"
-    case "DECIMAL":
-        return "Decimal"
     default:
         return "String"
     }
