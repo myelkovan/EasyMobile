@@ -1,0 +1,19 @@
+<!--View Controller-->
+        <scene sceneID="#ID1#">
+            <objects>
+                <viewController id="#ID2#" customClass="#VIEVNAME#" customModule="#PROJECTNAME#" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="#ID3#">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                           #OBJECTS#
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="#ID4#"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+			#CONNECTIONS#
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="#ID5#" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="188.40579710144928" y="194.19642857142856"/>
+        </scene>

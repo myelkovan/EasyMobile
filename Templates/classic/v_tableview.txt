@@ -1,0 +1,59 @@
+import Foundation
+import UIKit
+
+
+class #NAME#: UITableViewController{
+	#IBOUTLET_LIST#
+	var dataobject = #DATA_MODEL#()
+
+       
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		dataobject.of_retrieve()
+	}
+
+   
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return dataobject.data.count
+	}
+
+   
+
+
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell:#CELL_NAME# = self.tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! #CELL_NAME#
+
+		let li_row = indexPath.row
+		cell.setRow(row: dataobject.data[li_row])
+		return cell
+	}
+
+
+	#SEARCH#
+	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+		if searchText == "" {
+			self.searchbar.text = ""
+			DispatchQueue.main.async {
+ 				self.searchbar.endEditing(true)
+			}
+ 			self.dataobject.data = self.dataobject.originaldata
+ 			self.tableView.reloadData()
+ 			return
+		}
+		
+		self.dataobject.data.removeAll()
+		self.dataobject.data = self.dataobject.originaldata.filter() {
+					(#SERACH_FIELD# as NSString).contains(searchText.lowercased())}
+		self.tableView.reloadData()
+	}
+	#ENDSEARCH#
+
+
+}
+
+
+
+
+
+  

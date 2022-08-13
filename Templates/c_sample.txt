@@ -1,0 +1,17 @@
+import Foundation
+import UIKit
+
+
+
+class #NAME#: UITableViewCell,c_base {
+
+	#IBOUTLET_LIST#
+    
+
+	func of_setRow(dataobject: d_base, indexPath: IndexPath ){
+		let row = (dataobject as! #DATA_MODEL_NAME#).data[indexPath.row]
+			#OBJECT_VALUE_SET#
+	}
+  
+
+}

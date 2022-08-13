@@ -1,0 +1,35 @@
+ <!--Table View Controller-->
+        <scene sceneID="#ID1#">
+            <objects>
+                <tableViewController id="#IDVIEW#" customClass="#VIEVNAME#" customModule="" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="#ID2#">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+			#SEARCHBAR#	
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="149" id="#IDCELL#" reuseIdentifier="Cell"   customClass="#CELLNAME#" customModule="#PROJECTNAME#" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="149"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="#IDCELL#" id="#ID3#">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="149"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        #OBJECTS#
+                                    </subviews>
+                                </tableViewCellContentView>
+			      #CONNECTIONS#
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="#IDVIEW#" id="#ID4#"/>
+                            <outlet property="delegate" destination="#IDVIEW#" id="#ID5#"/>
+                        </connections>
+                    </tableView>
+ 		#CONNECTION_SEARCHBAR#
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="#ID6#" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="849" y="117"/>
+        </scene>
+

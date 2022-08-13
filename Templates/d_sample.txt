@@ -1,0 +1,40 @@
+import Foundation
+import UIKit
+
+
+
+
+class #NAME# :d_base {
+	var data :[str_data] = []
+	var originaldata :[str_data] = []
+
+
+	public struct str_data {
+		#COLUMN_WITH_TYPE_NEWLINE#
+	}
+
+
+	override func of_add(_ row: Dictionary<String,AnyObject>, url: String){
+		originaldata.append(str_data(#COLUMN_WITH_JSON#)) 
+	}
+
+
+	func of_retrieve(){
+		data = []
+		originaldata = []
+		of_retrieve("#PHP_SELECT_NAME#" #RETRIEVE_ARGUMENT#)
+		data = originaldata
+	}
+
+
+	func of_update(#COLUMN_WITH_TYPE#) -> String{
+		return self.of_update("#PHP_INSERT_NAME#", parameters:[#COLUMN_WITH_COLUMN#])
+	}
+
+
+	func of_delete(#PK_WITH_TYPE#) -> String{
+		return self.of_update("#PHP_DELETE_NAME#", parameters: [#PK_WITH_PK#])
+	}
+
+
+}
