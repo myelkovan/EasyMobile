@@ -19,9 +19,11 @@ class #NAME#: MYUITableViewController{
 
 	#SEARCH#
 	override func of_filterForSearch(_ searchText: String)->Int {
-		dataobject.data = dataobject.originaldata.filter({ (row: #DATA_MODEL#.str_data) -> Bool in
-			return (row.#SERACH_FIELD#.lowercased() as NSString).contains(searchText.lowercased())
-			})
+		if search text.count == 0 {
+			dataobject.data = dataobject.originaldata
+		}else{
+			dataobject.data = dataobject.originaldata.filter() { #FILTER_EXPRESSION# }
+		}
 		return dataobject.data.count
 	}
 	#ENDSEARCH#
@@ -30,17 +32,15 @@ class #NAME#: MYUITableViewController{
 
 	/* Most used function for tableview. If you don't use delete them from here or from template
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-		switch dataobject.data[indexPath.row].?  {
-		}
-		self.performSegue(withIdentifier: "x", sender: self)
+		selectedIndexPath = indexPath
+		self.performSegue(withIdentifier: "toMessage", sender: self)
   	}
 	
     
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == "toMessageDetails"{
- 			let target_view = segue.destination as! 
-			target_view.? = ?
+		if segue.identifier == "toMessage"{
+ 			let target_view = segue.destination as! v_message 
+			target_view.name = dataobject.data[selectedIndexPath].name
 		}
  	}
 	*/
