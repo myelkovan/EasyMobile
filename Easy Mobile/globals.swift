@@ -13,6 +13,7 @@ import Foundation
 var DbColumns = [column]()
 var SqlColumns = [column]()
 var gsA_parameters = [String]()
+var gsA_where_parameters = [String]()
 var gsA_table_names = [String]()
 var gs_updatable_table = ""
 var gs_updatable_columns = ""
@@ -30,8 +31,7 @@ var gs_delete_sql = ""
 var gs_update_sql = ""
 var ii_page = 1
 var gi_viewtype = 1
-var gs_search_field = ""
-var gs_search_field_type = ""
+var gs_search_fields :[column] = []
 var gs_template_folder = ""
 var gs_default_folder = ""
 var gs_storyboard_path = ""
@@ -75,4 +75,32 @@ func of_read_file(_ filename: String) ->String{
     }
    
     return ls_template
+}
+
+
+
+func of_getSwiftType (_ as_type: String) -> String {
+    let ls_type = as_type.of_left("(")!.uppercased()
+    
+    switch ls_type {
+    case "TINYINT", "SMALLINT","MEDIUMINT","INT","BIGINT":
+        return "Int"
+    case "FLOAT":
+        return "Float"
+    case "DECIMAL","DOUBLE":
+        return "Double"
+    default:
+        return "String"
+    }
+}
+    
+
+// veritabani tipi string veya dat mi? basina sonuna tirnak lazim mi?
+func of_isDBTypeString (_ as_type: String) -> Bool {
+    switch as_type.of_left("(")!.lowercased(){
+    case "char","varchar","longtext","text","date","datetime","timestamp","time","year","binary","varbinary":
+        return true
+    default:
+        return false
+    }
 }
