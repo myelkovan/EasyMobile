@@ -18,8 +18,8 @@ class v_viewtype: ViewController{
     
     
     override func viewWillAppear() {
-        if gs_search_field.count > 0{
-            cb_search_field.title = gs_search_field
+        if gs_search_fields.count > 0{
+            cb_search_field.title = gs_search_fields[0].column_name!
         }
     }
     
@@ -68,7 +68,7 @@ class v_viewtype: ViewController{
    
     override func prepare(for segue: NSStoryboardSegue, sender: Any? ) {
         let target = segue.destinationController as! v_columns
-        target.ii_search_picture = sender as! Int
+        target.ii_searchORpicture = sender as! Int
     }
     
     @IBAction func cb_noview_clicked(_ sender : NSButton) {
@@ -105,7 +105,7 @@ class v_viewtype: ViewController{
             cb_search_field.isEnabled = true
         }else{
             cb_search_field.isEnabled = false
-            gs_search_field = ""
+            gs_search_fields = []
         }
      }
 

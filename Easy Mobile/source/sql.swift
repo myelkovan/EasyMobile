@@ -261,6 +261,20 @@ func of_parseSql(_ as_sql: String){
             if gsA_parameters.contains(ls_param!) == false{
                 gsA_parameters.append(ls_param!)
             }
+            
+            //sql in where kisiminda where adi = $adi gibi bir ifade varsa adi = '$adi'
+            // bu kisim bitmedi
+            if gsA_where_parameters.contains(ls_param!) == false{
+                if let row = SqlColumns.first(where: {$0.column_name!.lowercased() == ls_param!.of_right(starting: 1)!}) {
+                    if of_isDBTypeString(row.column_type!){
+                   gsA_where_parameters.append("'" + ls_param! + "'")
+                    }
+                }else{
+                   gsA_where_parameters.append(ls_param!)
+                }
+            }
+            
+            
             li_fromPos = li_pos
         }
         
@@ -269,3 +283,9 @@ func of_parseSql(_ as_sql: String){
    
 
 }
+
+
+
+
+
+

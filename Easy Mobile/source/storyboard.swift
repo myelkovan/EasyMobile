@@ -156,7 +156,7 @@ func of_update_storyboard(){
     //search field seçilmişse searchbar templatinden obje oluştur
     ls_obj_template = ""
     ls_connection = ""
-    if gs_search_field.count > 0{
+    if gs_search_fields.count > 0{
         ls_obj_template = ls_searchbar
         let ls_searchbar_id = of_generateID()
         ls_obj_template=ls_obj_template.replacingOccurrences(of: "#ID100#", with: ls_searchbar_id)

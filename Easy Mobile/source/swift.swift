@@ -53,7 +53,7 @@ func of_create_swift(){
                 
                 //FIXME diğer tiplere dönüşüm ele alınmalı
                 if row.column_name! != gs_picture_field{
-                    if of_gettype(row.column_type!) != "String"{
+                    if of_getSwiftType(row.column_type!) != "String"{
                         ls_value_set += ls_prefix + row.column_name! + ".text = String(row." + row.column_name! + ")\r\t\t\t"
                     }else{
                         ls_value_set += ls_prefix + row.column_name! + ".text = row." + row.column_name! + "\r\t\t\t"
@@ -114,17 +114,21 @@ func of_create_swift(){
              return
         }
       
-        var ls_search_field = gs_search_field
-        if gs_search_field_type == "String"{
-            ls_search_field = ls_search_field + ".lowercased()"
-        }else{
-            ls_search_field = "String(row." + ls_search_field + ")"
+        var ls_filter = ""
+        for column in gs_search_fields{
+            if ls_filter.count > 0{
+                ls_filter += " || "
+            }
+            if of_getSwiftType(column.column_type!) == "String"{
+                ls_filter += "$0." + column.column_name! + ".lowercased().contains(searchText.lowercased())"
+            }else{
+                ls_filter += "String($0." + column.column_name! + ").contains(searchText.lowercased())"
+            }
         }
-       
-
+        
         //view için outlet listesi oluştur
         ls_outlet_list = ""
-        if gs_search_field.count > 0{
+        if gs_search_fields.count > 0{
             //ls_template = ls_template.replacingOccurrences(of: "UITableViewController", with: "UITableViewController, UISearchBarDelegate")
             //ls_outlet_list = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
         }
@@ -134,7 +138,7 @@ func of_create_swift(){
         ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "v_" + gs_appName)
         ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL#", with: "d_" + gs_appName)
         ls_template = ls_template.replacingOccurrences(of: "#CELL_NAME#", with: "c_" + gs_appName)
-        ls_template = ls_template.replacingOccurrences(of: "#SERACH_FIELD#", with: ls_search_field)
+        ls_template = ls_template.replacingOccurrences(of: "#FILTER_EXPRESSION#", with: ls_filter)
         
         
      
@@ -149,7 +153,7 @@ func of_create_swift(){
             let li_pos1 = ls_template.of_pos("#SEARCH#")
             let li_pos2 = ls_template.of_pos("#ENDSEARCH#")
             
-            if gs_search_field.count == 0 {
+            if gs_search_fields.count == 0 {
                 ls_template.of_replace(starting: li_pos1, to: li_pos2 + 11, as_text: "")
             }else{
                 ls_template = ls_template.replacingOccurrences(of: "#SEARCH#", with: "")
@@ -174,7 +178,7 @@ func of_create_swift(){
     var ls_col_with_json = ""
     var ls_col_with_col = ""
     var ls_col_with_type_newline = ""
-    let ls_pk_with_type = gs_pk + ":" + of_gettype(gs_pk_type)
+    let ls_pk_with_type = gs_pk + ":" + of_getSwiftType(gs_pk_type)
     let ls_pk_with_pk = "\"" + gs_pk + "\":" + gs_pk
     var ls_retrieve_argument = ""
     var ls_type = ""
@@ -184,7 +188,7 @@ func of_create_swift(){
     
     
     for row in SqlColumns{
-        ls_type = of_gettype(row.column_type!)
+        ls_type = of_getSwiftType(row.column_type!)
         ls_colname = row.column_name!
         lb_null = row.is_null! == "YES"
         
@@ -248,7 +252,7 @@ func of_create_swift(){
     ls_template = ls_template.replacingOccurrences(of: "#PHP_INSERT_NAME#", with: gs_appName + "_insert.php")
     ls_template = ls_template.replacingOccurrences(of: "#PHP_DELETE_NAME#", with: gs_appName + "_delete.php")
    
-    if gs_search_field.count == 0 {
+    if gs_search_fields.count == 0 {
         ls_template = ls_template.replacingOccurrences(of: "var originaldata = [str_data]()\r\n", with:"")
         ls_template = ls_template.replacingOccurrences(of: "originaldata = [str_data]()\r\n\t\t", with:"")
         ls_template = ls_template.replacingOccurrences(of: "data = originaldata\r\n", with:"")
@@ -278,21 +282,4 @@ func of_create_swift(){
    
 }
 
-    
-
-func of_gettype (_ as_type: String) -> String {
-    let ls_type = as_type.of_left("(")!.uppercased()
-    
-    switch ls_type {
-    case "TINYINT", "SMALLINT","MEDIUMINT","INT","BIGINT":
-        return "Int"
-    case "FLOAT":
-        return "Float"
-    case "DECIMAL","DOUBLE":
-        return "Double"
-    default:
-        return "String"
-    }
-}
-    
     
