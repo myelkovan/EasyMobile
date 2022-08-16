@@ -14,7 +14,7 @@ class #NAME# :d_base {
 	}
 
 
-	override func of_add(_ row: Dictionary<String,AnyObject>, url: String){
+	override func of_rowRetrieved(_ row: Dictionary<String,AnyObject>, url: String){
 		originaldata.append(str_data(#COLUMN_WITH_JSON#)) 
 	}
 
@@ -22,7 +22,7 @@ class #NAME# :d_base {
 	func of_retrieve(){
 		data = []
 		originaldata = []
-		of_retrieve("#PHP_SELECT_NAME#" #RETRIEVE_ARGUMENT#)
+		of_getPhpData("#PHP_SELECT_NAME#" #RETRIEVE_ARGUMENT#)
 		data = originaldata
 	}
 
