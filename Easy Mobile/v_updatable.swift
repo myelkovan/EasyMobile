@@ -164,10 +164,11 @@ class v_updatable: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         if of_isDBTypeString(gs_pk_type){
             ls_pk = "'$" + gs_pk + "'"
         }
-            
+           
+        
         //fixme select sonundaki where adi=$adi ifadesi icinilk adi ifadesinin tablodaki tipini ogrenip
         // ona gore ikinci adi ifadesini tirnak icine almalisin adi = '$adi' yapmalisin
-        // sql objesini son kismina bak
+        // sql objesini son kismina bak tamam
         gs_delete_sql = "Delete From " + gs_updatable_table + " Where " + gs_pk + " = " + ls_pk
             
         gs_insert_sql = "Insert Into " + gs_updatable_table + "(" + ls_updatable_columns + ") Values(" + ls_updatable_columns_with$ + ")"
