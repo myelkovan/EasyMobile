@@ -104,8 +104,8 @@ class database{
     func of_test_sql(_ as_sql:String){
         if let con = of_connect(){
             do {
-                try! con.prepare(as_sql)
-                try! con.close()
+                try con.prepare(as_sql)
+                try con.close()
                 messagebox("SQL", "Success!")
              }
             catch (let err) {

@@ -902,19 +902,28 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzu-JF-WRg">
+                            <scrollView borderType="line" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" allowsMagnification="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tzu-JF-WRg">
                                 <rect key="frame" x="10" y="12" width="765" height="473"/>
                                 <clipView key="contentView" drawsBackground="NO" id="Lfc-BN-yJs">
-                                    <rect key="frame" x="0.0" y="0.0" width="765" height="473"/>
+                                    <rect key="frame" x="1" y="1" width="763" height="471"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" verticallyResizable="YES" fieldEditor="YES" findStyle="panel" spellingCorrection="YES" smartInsertDelete="YES" id="TjC-K5-RP9">
-                                            <rect key="frame" x="0.0" y="0.0" width="765" height="473"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="763" height="471"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="765" height="473"/>
+                                            <size key="minSize" width="763" height="471"/>
                                             <size key="maxSize" width="783" height="10000000"/>
+                                            <attributedString key="textStorage">
+                                                <fragment content=" ">
+                                                    <attributes>
+                                                        <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                        <font key="NSFont" size="19" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <allowedInputSourceLocales>
                                                 <string>eu</string>
@@ -1835,7 +1844,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="itw-3z-F8x">
-                                    <rect key="frame" x="749" y="0.0" width="16" height="473"/>
+                                    <rect key="frame" x="748" y="1" width="16" height="471"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -2214,7 +2223,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="cb_picture_clicked:" target="7VE-oh-6Ot" id="lrV-Wm-yZO"/>
+                                    <action selector="cbx_picture_clicked:" target="7VE-oh-6Ot" id="xyd-JV-LH4"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SFc-9E-BJF">
@@ -2243,11 +2252,11 @@
                     </view>
                     <connections>
                         <outlet property="cb_collectionview" destination="s0J-kq-iBp" id="jJ9-DJ-P4B"/>
-                        <outlet property="cb_picture" destination="QGl-Th-qIJ" id="6or-qk-3UW"/>
                         <outlet property="cb_picture_field" destination="r8H-7L-OAO" id="KhY-r5-dMi"/>
                         <outlet property="cb_search_field" destination="sWK-bf-3Pa" id="tnL-rK-F4j"/>
                         <outlet property="cb_singleview" destination="fKA-SW-zec" id="PCS-jR-bOL"/>
                         <outlet property="cb_tableview" destination="PwO-Za-Fes" id="kkC-CR-fIJ"/>
+                        <outlet property="cbx_picture" destination="QGl-Th-qIJ" id="ENv-hG-LdW"/>
                         <outlet property="cbx_search" destination="XQO-sM-frc" id="eaq-bL-hSe"/>
                         <segue destination="GAm-ZP-ikn" kind="modal" identifier="toColumn" id="dgP-11-Q3D"/>
                     </connections>

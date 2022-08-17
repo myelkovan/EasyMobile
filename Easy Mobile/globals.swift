@@ -16,12 +16,13 @@ var gsA_parameters = [String]()
 var gsA_where_parameters = [String]()
 var gsA_table_names = [String]()
 var gs_updatable_table = ""
-var gs_updatable_columns = ""
+
 var gs_pk = ""
 var gs_pk_type = ""
 var gsA_updatable_columns = [String]()
 var gs_appName = ""
 var gs_last_appName = ""
+
 var gb_select=false
 var gb_delete=false
 var gb_insert=false
@@ -29,11 +30,13 @@ var gs_select_sql = ""
 var gs_insert_sql = ""
 var gs_delete_sql = ""
 var gs_update_sql = ""
-var ii_page = 1
-var gi_viewtype = 1
-var gs_search_fields :[column] = []
+
 var gs_template_folder = ""
 var gs_default_folder = ""
+
+
+var gi_viewtype = 1
+var gs_search_fields :[column] = []
 var gs_storyboard_path = ""
 var gs_created_storyboard_path = ""
 var gs_picture_field = ""

@@ -30,7 +30,7 @@ func of_update_storyboard(){
         return
     }
   
-
+    //create edilecek objelerin default kodlari
     let ls_textfield = "<textField opaque=\"NO\" enabled=\"NO\" contentMode=\"scaleToFill\" contentHorizontalAlignment=\"left\" contentVerticalAlignment=\"center\" " +
         "borderStyle=\"roundedRect\" textAlignment=\"natural\" minimumFontSize=\"17\" translatesAutoresizingMaskIntoConstraints=\"NO\" id=\"#ID30#\">\r\n\t\t\t\t" +
         "<rect key=\"frame\" x=\"20\" y=\"14\" width=\"340\" height=\"34\"/>\r\n\t\t\t\t" +
@@ -180,13 +180,16 @@ func of_update_storyboard(){
     //gerçek storyboard içeriğini al
     var ls_storyboard_path = ""
     if gs_storyboard_path == "" {
-        gs_storyboard_path = of_getFolderName(pickFolder :false)
-        ls_storyboard_path = gs_storyboard_path
-    }
-    if ls_storyboard_path == "" || ls_storyboard_path == nil{
-        return
-    }
+        messagebox("Select StoryBoard File","Please select storyboard file in your target Xcode project. If you don't select a file, no view will be created for storyboard.")
+        ls_storyboard_path = of_getFolderName(pickFolder :false)
+        gs_storyboard_path = ls_storyboard_path
+
+        if ls_storyboard_path == "" || ls_storyboard_path == nil{
+            return
+        }
+     }
     
+      
     if gb_reset_storyboard {
         ls_storyboard_path = gs_storyboard_path
     }else{
@@ -196,16 +199,16 @@ func of_update_storyboard(){
     ls_file = ls_storyboard_path.right(find: "/")
     var ls_content = file().of_read(ls_storyboard_path )
     
-    //temlateden alıp düzenlediğimizi gerçeğin içine yerleştir
+    //temlateden alıp düzenlediğimizi gerçeğin içine </scenes> sonrasina ekle
     ls_content = ls_content.of_left("</scenes>")! + "\r" + ls_template + "\r</scenes>" +  ls_content.of_right("</scenes>")!
     
-    
+    // hedef dosyaya yaz
     let documentsPath = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true)[0] as NSString?
     gs_created_storyboard_path = "file://" + documentsPath!.appendingPathComponent("SWIFT/" + gs_appName + "/" + ls_file)
- 
-
-    
     file().of_write(filename: "SWIFT/" + gs_appName + "/" + ls_file, content :ls_content)
+    
+    print("SWIFT/" + gs_appName + "/" + ls_file)
+    print(gs_created_storyboard_path)
 }
 
     

@@ -18,7 +18,7 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     @IBOutlet weak var cb_next: NSButton!
     @IBOutlet weak var cb_back: NSButton!
     @IBOutlet weak var cb_generate: NSButton!
-
+    var ii_page = 1
    
     private lazy var v_sql: v_sql = {
         let storyboard = NSStoryboard(name: "Main", bundle: Bundle.main)
@@ -51,10 +51,14 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //template klasorlerini global degiskene al
         gs_template_folder = UserDefaults.standard.string(forKey: "template_folder") ?? ""
         gs_default_folder = UserDefaults.standard.string(forKey: "default_folder") ?? ""
+        
+        //ncere resize yapilamasinpe
         self.view.window?.styleMask.remove(NSWindow.StyleMask.resizable)
         preferredContentSize = view.frame.size
+        //sql ekraniniekrana goster
         add(asChildViewController: v_sql)
     }
     
@@ -139,6 +143,9 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     
     
     @IBAction func cb_generate_clicked(_ sender: Any) {
+        if v_viewtype.of_finish() == -1{
+            return 
+        }
         
         if gs_storyboard_path != ""{
             let alert = NSAlert()
@@ -153,10 +160,9 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
                 gb_reset_storyboard = true
             }
         }
-    
-        
-        
-        
+
+        // onceki projeye ait degiskenleri resetle
+        gs_search_fields = []
         gs_last_appName = gs_appName
         of_create_php()
         of_create_swift()

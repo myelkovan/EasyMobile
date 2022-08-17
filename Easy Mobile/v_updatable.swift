@@ -76,7 +76,7 @@ class v_updatable: ViewController, NSTableViewDelegate, NSTableViewDataSource{
    
     
     func of_finish()->Int {
-        gsA_updatable_columns = [String]()
+        gsA_updatable_columns = []
         if TableColumns.count == 0{
             messagebox("Error","Please select updatable table and columns!")
             return -1

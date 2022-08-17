@@ -19,7 +19,7 @@ class #NAME#: MYUITableViewController{
 
 	#SEARCH#
 	override func of_filterForSearch(_ searchText: String)->Int {
-		if search text.count == 0 {
+		if searchText.count == 0 {
 			dataobject.data = dataobject.originaldata
 		}else{
 			dataobject.data = dataobject.originaldata.filter() { #FILTER_EXPRESSION# }

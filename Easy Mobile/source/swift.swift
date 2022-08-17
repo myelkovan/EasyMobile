@@ -64,7 +64,7 @@ func of_create_swift(){
                 
             //image seçilmişse image okuma komutu ekle
             if gs_picture_field.count > 0 {
-                let ls_picture = "p_" + gs_picture_field + ".loadImage(String(row." + gs_picture_field + "))" + "\r\t\t\t"
+                let ls_picture = "p_" + gs_picture_field + ".loadImage(\"PICTURES/\" + String(row." + gs_picture_field + "))" + "\r\t\t\t"
                 ls_value_set += ls_picture
             }
 

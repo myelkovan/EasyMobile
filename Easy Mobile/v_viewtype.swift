@@ -12,16 +12,11 @@ class v_viewtype: ViewController{
     @IBOutlet weak var cb_collectionview: NSButton!
     @IBOutlet weak var cb_singleview: NSButton!
     @IBOutlet weak var cbx_search: NSButton!
+    @IBOutlet weak var cbx_picture: NSButton!
     @IBOutlet weak var cb_search_field: NSButton!
-    @IBOutlet weak var cb_picture: NSButton!
     @IBOutlet weak var cb_picture_field: NSButton!
     
     
-    override func viewWillAppear() {
-        if gs_search_fields.count > 0{
-            cb_search_field.title = gs_search_fields[0].column_name!
-        }
-    }
     
     @IBAction func cb_tableview_clicked(_ sender: Any) {
         of_select_tableview()
@@ -33,6 +28,21 @@ class v_viewtype: ViewController{
     
     @IBAction func cb_singleview_clicked(_ sender: Any) {
         of_select_singleview()
+    }
+    
+    
+    //resim veya search alanlari check yapildi ama alan secilmediyse uyar
+    func of_finish() -> Int{
+        if cbx_search.state == NSButton.StateValue.on && gs_search_fields.count == 0 {
+            messagebox("","Please select search field!")
+            return -1
+        }
+  
+        if cbx_picture.state == NSButton.StateValue.on && gs_picture_field.count == 0 {
+            messagebox("","Please select picture field!")
+            return -1
+        }
+        return 1
     }
     
     
@@ -78,7 +88,7 @@ class v_viewtype: ViewController{
             cb_singleview.alphaValue = 0.2
             cbx_search.isEnabled = false
             cb_search_field.isEnabled = false
-            cb_picture.isEnabled = false
+            cbx_picture.isEnabled = false
             cb_picture_field.isEnabled = false
             gb_create_view = false
             
@@ -110,7 +120,7 @@ class v_viewtype: ViewController{
      }
 
     
-    @IBAction func cb_picture_clicked(_ sender: NSButton) {
+    @IBAction func cbx_picture_clicked(_ sender: NSButton) {
         if sender.state == NSButton.StateValue.on{
             cb_picture_field.isEnabled = true
         }else{

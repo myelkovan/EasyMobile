@@ -32,9 +32,9 @@ class v_columns: ViewController, NSTableViewDelegate, NSTableViewDataSource{
             //daha önce seçilen search alanlarini seç
             for col in gs_search_fields{
                 ls_search_field = col.column_name!
+                print(ls_search_field)
                 if let li_row = SqlColumns.index(where: { $0.column_name == ls_search_field}) {
-                    let index = NSIndexSet(index: li_row)
-                    tableview.selectRowIndexes(index as IndexSet, byExtendingSelection: false)
+                    tableview.selectRowIndexes(NSIndexSet(index: li_row) as IndexSet, byExtendingSelection: true)
                 }
             }
         }
@@ -43,7 +43,11 @@ class v_columns: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     
   
     override func viewDidDisappear() {
-         for row in 0...SqlColumns.count{
+        if ii_searchORpicture == 1{
+            gs_search_fields = []
+        }
+        
+        for row in 0...SqlColumns.count{
             if tableview.isRowSelected(row){
                 if ii_searchORpicture == 1{
                     gs_search_fields.append(SqlColumns[row])
@@ -51,10 +55,9 @@ class v_columns: ViewController, NSTableViewDelegate, NSTableViewDataSource{
                     gs_picture_field = SqlColumns[row].column_name!
                 }
             }
-            
-        }
-   
-    
+         }
+        
+        
         if ii_searchORpicture == 2{
             self.view.window?.close()
         }
@@ -69,7 +72,7 @@ class v_columns: ViewController, NSTableViewDelegate, NSTableViewDataSource{
   
    
     
- 
+    //picture field secildi ise multi select yok hemen kapat
     func tableViewSelectionDidChange(_ notification: Notification) {
         if ii_searchORpicture == 2{
             self.view.window?.close()

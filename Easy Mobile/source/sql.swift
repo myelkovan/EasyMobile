@@ -245,6 +245,7 @@ func of_parseSql(_ as_sql: String){
    //*****************************************************************************************
    //Sql içinde geçen $id gibi parametreleri bulunup arraya yükleyeceğiz
     li_fromPos = 0
+    gsA_parameters = []
     repeat{
  
         li_fromPos = ls_sql.of_pos("$", starting:li_fromPos)
@@ -255,8 +256,8 @@ func of_parseSql(_ as_sql: String){
             }
                 
             ls_param = ls_sql.of_mid(location: li_fromPos, length: li_pos - li_fromPos)?.of_trim()
-            // Select'te (select x from x where id=$id) as a varsa parantezi uçur
-            ls_param = ls_param?.of_left(")")!
+            // Select'te (select x from x where id='$id') as a varsa parantezi ve tirnagi uçur
+            ls_param = ls_param?.of_left(")")?.of_left("'")
             
             if gsA_parameters.contains(ls_param!) == false{
                 gsA_parameters.append(ls_param!)
