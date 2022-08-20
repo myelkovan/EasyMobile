@@ -166,9 +166,25 @@ class v_updatable: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         }
            
         
-        //fixme select sonundaki where adi=$adi ifadesi icinilk adi ifadesinin tablodaki tipini ogrenip
+        //FIXME select sonundaki where adi=$adi ifadesi icinilk adi ifadesinin tablodaki tipini ogrenip
         // ona gore ikinci adi ifadesini tirnak icine almalisin adi = '$adi' yapmalisin
         // sql objesini son kismina bak tamam
+        
+        
+        //insert yapiliyorsa pk alanin sqlde olmasi lazim cunku delete, update isleminde id kullanilacak
+        // kullanici bu alani secmeyi unuttu ise eklemelisin
+        if gb_insert{
+            if SqlColumns.contains(where: {$0.column_name == gs_pk}) == false{
+                gs_select_sql = gs_select_sql.replacingOccurrences(of: "select", with: "select " + gs_pk + ", ")
+                
+                if let row = DbColumns.first(where: {$0.table_name.lowercased() == gs_updatable_table && $0.column_name?.lowercased() == gs_pk}) {
+                    SqlColumns.append(row)
+                }
+            }
+                                
+        }
+     
+         
         gs_delete_sql = "Delete From " + gs_updatable_table + " Where " + gs_pk + " = " + ls_pk
             
         gs_insert_sql = "Insert Into " + gs_updatable_table + "(" + ls_updatable_columns + ") Values(" + ls_updatable_columns_with$ + ")"

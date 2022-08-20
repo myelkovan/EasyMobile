@@ -8,7 +8,7 @@ class #NAME#: UITableViewCell {
 	#IBOUTLET_LIST#
     
 
-	func setRow(row: #DATA_MODEL_NAME#.str_data ){
+	func of_setRow(row: #DATA_MODEL_NAME#.str_data ){
 			#OBJECT_VALUE_SET#
 	}
   

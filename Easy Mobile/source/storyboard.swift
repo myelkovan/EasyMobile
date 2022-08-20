@@ -14,6 +14,7 @@ import Foundation
 
 func of_update_storyboard(){
     var ls_template = ""
+    var ls_template_final = ""
     var ls_object_name = ""
     var ls_connection = ""
     var ls_object_id = ""
@@ -156,7 +157,7 @@ func of_update_storyboard(){
     //search field seçilmişse searchbar templatinden obje oluştur
     ls_obj_template = ""
     ls_connection = ""
-    if gs_search_fields.count > 0{
+    if search_fields.count > 0{
         ls_obj_template = ls_searchbar
         let ls_searchbar_id = of_generateID()
         ls_obj_template=ls_obj_template.replacingOccurrences(of: "#ID100#", with: ls_searchbar_id)
@@ -175,7 +176,38 @@ func of_update_storyboard(){
     ls_template = ls_template.replacingOccurrences(of: "#SEARCHBAR#", with: ls_obj_template)
     ls_template = ls_template.replacingOccurrences(of: "#IDVIEW#", with: of_generateID())
     ls_template = ls_template.replacingOccurrences(of: "#CONNECTION_SEARCHBAR#", with: ls_connection)
+    ls_template_final = ls_template
+   
+    
+    /*
+    //Insert row islemi varsa edit view olusturulacak***************************************************
+    ls_template = file().of_read(gs_template_folder + "/storyboard_edit_view.txt")
+    if ls_template == ""{
+        return
+    }
+    //default yapılması gereken değişiklikleri yap
+    ls_template = ls_template.replacingOccurrences(of: "#ID1#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID2#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID3#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID4#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID5#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID6#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID7#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID8#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID9#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID10#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID11#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#ID12#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#IDCELL#", with: of_generateID())
+    ls_template = ls_template.replacingOccurrences(of: "#PROJECTNAME#", with: "")
+    ls_template = ls_template.replacingOccurrences(of: "#VIEVNAME#", with: "v_" + gs_appName)
+    ls_template = ls_template.replacingOccurrences(of: "#CELLNAME#", with: "c_" + gs_appName)
 
+   */
+    
+    
+    
+    
     
     //gerçek storyboard içeriğini al
     var ls_storyboard_path = ""
@@ -200,15 +232,14 @@ func of_update_storyboard(){
     var ls_content = file().of_read(ls_storyboard_path )
     
     //temlateden alıp düzenlediğimizi gerçeğin içine </scenes> sonrasina ekle
-    ls_content = ls_content.of_left("</scenes>")! + "\r" + ls_template + "\r</scenes>" +  ls_content.of_right("</scenes>")!
+    ls_content = ls_content.of_left("</scenes>")! + "\r" + ls_template_final + "\r</scenes>" +  ls_content.of_right("</scenes>")!
     
     // hedef dosyaya yaz
     let documentsPath = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true)[0] as NSString?
     gs_created_storyboard_path = "file://" + documentsPath!.appendingPathComponent("SWIFT/" + gs_appName + "/" + ls_file)
     file().of_write(filename: "SWIFT/" + gs_appName + "/" + ls_file, content :ls_content)
     
-    print("SWIFT/" + gs_appName + "/" + ls_file)
-    print(gs_created_storyboard_path)
+ 
 }
 
     

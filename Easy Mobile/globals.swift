@@ -36,7 +36,7 @@ var gs_default_folder = ""
 
 
 var gi_viewtype = 1
-var gs_search_fields :[column] = []
+var search_fields :[column] = []
 var gs_storyboard_path = ""
 var gs_created_storyboard_path = ""
 var gs_picture_field = ""

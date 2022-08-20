@@ -206,15 +206,7 @@ func of_parseSql(_ as_sql: String){
         cols.append(col(colname: ls_col, tablename: ls_table, real_colname: ls_col_in_db))
     }
     
-    
-    func of_parse_colname(_ columnName: String) -> (tablename:String, colname:String){
-        if columnName.contains(".") {
-            let ls_colname = columnName.of_right(".")!
-            let ls_table = columnName.of_left(".")!
-            return (tablename: ls_table, colname:ls_colname)
-        }
-        return (tablename: "", colname:columnName)
-    }
+   
     
         
     //*****************************************************************************************
@@ -283,6 +275,18 @@ func of_parseSql(_ as_sql: String){
 
    
 
+    
+    
+    
+    
+    func of_parse_colname(_ columnName: String) -> (tablename:String, colname:String){
+        if columnName.contains(".") {
+            let ls_colname = columnName.of_right(".")!
+            let ls_table = columnName.of_left(".")!
+            return (tablename: ls_table, colname:ls_colname)
+        }
+        return (tablename: "", colname:columnName)
+    }
 }
 
 

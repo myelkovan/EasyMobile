@@ -114,53 +114,68 @@ func of_create_swift(){
              return
         }
       
+        if gi_viewtype == 2{
+            ls_template = ls_template.replacingOccurrences(of: "UITableView", with: "UICollectionView")
+            ls_template = ls_template.replacingOccurrences(of: "tableView", with: "collectionView")
+        }
+ 
+    
+        
+        
+        //search işlemleri ---------------------------
         var ls_filter = ""
-        for column in gs_search_fields{
-            if ls_filter.count > 0{
-                ls_filter += " || "
+        if gi_viewtype < 3{
+            
+            for column in search_fields{
+                if ls_filter.count > 0{
+                    ls_filter += " || "
+                }
+                if of_getSwiftType(column.column_type!) == "String"{
+                    ls_filter += "$0." + column.column_name! + ".lowercased().contains(searchText.lowercased())"
+                }else{
+                    ls_filter += "String($0." + column.column_name! + ").contains(searchText.lowercased())"
+                }
             }
-            if of_getSwiftType(column.column_type!) == "String"{
-                ls_filter += "$0." + column.column_name! + ".lowercased().contains(searchText.lowercased())"
-            }else{
-                ls_filter += "String($0." + column.column_name! + ").contains(searchText.lowercased())"
+            
+            //view için outlet listesi oluştur
+            ls_outlet_list = ""
+            if search_fields.count > 0{
+                ls_template = ls_template.replacingOccurrences(of: "UITableViewController", with: "UITableViewController, UISearchBarDelegate")
+                ls_outlet_list = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
             }
+
+            ls_template = of_addFunc(template:ls_template, key:"#SEARCH#", addremove: search_fields.count > 0)
         }
         
-        //view için outlet listesi oluştur
-        ls_outlet_list = ""
-        if gs_search_fields.count > 0{
-            //ls_template = ls_template.replacingOccurrences(of: "UITableViewController", with: "UITableViewController, UISearchBarDelegate")
-            //ls_outlet_list = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
-        }
+            
+        //delete işlemleri ---------------------------
+        ls_template = of_addFunc(template:ls_template, key:"#DELETE#", addremove: gb_delete)
 
+        
+        //insert işlemleri ---------------------------
+        ls_template = of_addFunc(template:ls_template, key:"#TOEDITVIEW#", addremove: gb_insert)
+        if gb_insert == false {
+            ls_template = ls_template.replacingOccurrences(of: "var selectedIndexPath :IndexPath?", with: "")
+         }
+     
+        //FIXME
+        //ls_template = of_addLine(add:"var selectedIndexPath :IndexPath?", after:"var dataobject =")
+        //func of_addLine(add:String, after:String)->String{
+        //    return ls_template
+        //}
+        
+        
         //Genel değişiklikleri yap
+        ls_template = ls_template.replacingOccurrences(of: "#SEGUE_NAME#", with:"toEdit" + gs_appName )
+        ls_template = ls_template.replacingOccurrences(of: "#TARGET_VIEW#", with: "v_edit_" + gs_appName)
+        ls_template = ls_template.replacingOccurrences(of: "#PK#", with: gs_pk)
         ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
         ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "v_" + gs_appName)
         ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL#", with: "d_" + gs_appName)
         ls_template = ls_template.replacingOccurrences(of: "#CELL_NAME#", with: "c_" + gs_appName)
         ls_template = ls_template.replacingOccurrences(of: "#FILTER_EXPRESSION#", with: ls_filter)
+
         
-        
-     
-        if gi_viewtype == 2{
-            ls_template = ls_template.replacingOccurrences(of: "UITableView", with: "UICollectionView")
-            ls_template = ls_template.replacingOccurrences(of: "tableView", with: "collectionView")
-        }
-        
-        
-        //search işlemleri
-        if gi_viewtype < 3{
-            let li_pos1 = ls_template.of_pos("#SEARCH#")
-            let li_pos2 = ls_template.of_pos("#ENDSEARCH#")
-            
-            if gs_search_fields.count == 0 {
-                ls_template.of_replace(starting: li_pos1, to: li_pos2 + 11, as_text: "")
-            }else{
-                ls_template = ls_template.replacingOccurrences(of: "#SEARCH#", with: "")
-                ls_template = ls_template.replacingOccurrences(of: "#ENDSEARCH#", with: "")
-            }
-        }
-            
         //Save file
         file().of_write(filename: "SWIFT/" + gs_appName + "/" + "v_" + gs_appName + ".swift", content :ls_template)
 
@@ -199,7 +214,7 @@ func of_create_swift(){
         
         ls_col_with_type += ls_colname + " :" + ls_type + ", "
         ls_col_with_type_newline += "var " + ls_colname + " :" + ls_type + "\r\n\t\t"
-        ls_col_with_col += "\"" + ls_colname + "\"" + " :" + ls_colname + ", "
+        ls_col_with_col += "\"" + ls_colname + "\"" + " : row." + ls_colname + ", "
   
        
         
@@ -252,12 +267,15 @@ func of_create_swift(){
     ls_template = ls_template.replacingOccurrences(of: "#PHP_INSERT_NAME#", with: gs_appName + "_insert.php")
     ls_template = ls_template.replacingOccurrences(of: "#PHP_DELETE_NAME#", with: gs_appName + "_delete.php")
    
-    if gs_search_fields.count == 0 {
-        ls_template = ls_template.replacingOccurrences(of: "var originaldata = [str_data]()\r\n", with:"")
-        ls_template = ls_template.replacingOccurrences(of: "originaldata = [str_data]()\r\n\t\t", with:"")
+    if search_fields.count == 0 {
+        ls_template = ls_template.replacingOccurrences(of: "var originaldata :[str_data] = []\r\n", with:"")
+        ls_template = ls_template.replacingOccurrences(of: "originaldata = []\r\n\t\t", with:"")
         ls_template = ls_template.replacingOccurrences(of: "data = originaldata\r\n", with:"")
+        ls_template = ls_template.replacingOccurrences(of: "self.originaldata[indexPath.row] = row\r\n",with:"")
+        ls_template = ls_template.replacingOccurrences(of: "self.originaldata.remove(at: indexPath.row)\r\n",with:"")
         ls_template = ls_template.replacingOccurrences(of: "originaldata",with:"data")
         ls_template = ls_template.replacingOccurrences(of: "\t\t\t}",with:"\t}")
+        
     }
     
     
@@ -280,6 +298,22 @@ func of_create_swift(){
     
     file().of_write(filename: "SWIFT/" + gs_appName + "/" + "d_" + gs_appName + ".swift", content :ls_template)
    
+    
+    
+    func of_addFunc(template as_templare: String, key as_key:String, addremove ab_addRemove: Bool )-> String{
+        let ls_endkey = "#END" + as_key.of_right(starting:1)!
+        let li_pos1 = ls_template.of_pos(as_key)
+        let li_pos2 = ls_template.of_pos(ls_endkey)
+        var ls_template = as_templare
+        if ab_addRemove == false{
+            ls_template.of_replace(starting: li_pos1, to: li_pos2 + ls_endkey.count, as_text: "")
+        }else{
+            ls_template = ls_template.replacingOccurrences(of: "\t" + as_key + "\n", with: "")
+            ls_template = ls_template.replacingOccurrences(of: "\t" + ls_endkey + "\n", with: "")
+        }
+        return ls_template
+    }
+
 }
 
     

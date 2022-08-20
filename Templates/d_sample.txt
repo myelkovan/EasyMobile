@@ -19,21 +19,30 @@ class #NAME# :d_base {
 	}
 
 
+	//Retrieve Data
 	func of_retrieve(){
 		data = []
 		originaldata = []
-		of_getPhpData("#PHP_SELECT_NAME#" #RETRIEVE_ARGUMENT#)
+		of_phpSelect("#PHP_SELECT_NAME#" #RETRIEVE_ARGUMENT#)
 		data = originaldata
 	}
 
 
-	func of_update(#COLUMN_WITH_TYPE#) -> String{
-		return self.of_update("#PHP_INSERT_NAME#", parameters:[#COLUMN_WITH_COLUMN#])
+	//Insert - Update
+	func of_update(row: str_data, indexPath :IndexPath) -> String{
+		self.data[indexPath.row] = row
+		self.originaldata[indexPath.row] = row
+        
+		return self.of_phpUpdate("#PHP_INSERT_NAME#", parameters:[#COLUMN_WITH_COLUMN#])
 	}
 
-
-	func of_delete(#PK_WITH_TYPE#) -> String{
-		return self.of_update("#PHP_DELETE_NAME#", parameters: [#PK_WITH_PK#])
+	
+	//Delete
+	func of_delete(#PK_WITH_TYPE#, indexPath :IndexPath) -> String{
+		self.data.remove(at: indexPath.row)
+		self.originaldata.remove(at: indexPath.row)
+        
+		return self.of_phpUpdate("#PHP_DELETE_NAME#", parameters: [#PK_WITH_PK#])
 	}
 
 
