@@ -18,6 +18,10 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     @IBOutlet weak var cb_next: NSButton!
     @IBOutlet weak var cb_back: NSButton!
     @IBOutlet weak var cb_generate: NSButton!
+    @IBOutlet weak var cb_fromPHP: NSButton!
+    @IBOutlet weak var cb_test: NSButton!
+    @IBOutlet weak var cb_connect: NSButton!
+    @IBOutlet weak var cb_settings: NSButton!
     var ii_page = 1
    
     private lazy var v_sql: v_sql = {
@@ -60,9 +64,10 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         preferredContentSize = view.frame.size
         //sql ekraniniekrana goster
         add(asChildViewController: v_sql)
+        sqlview = v_sql
     }
     
-    
+  
     
     @IBAction func cb_next_clicked(_ sender: Any) {
         
@@ -110,6 +115,10 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         cb_back.isEnabled = false
         cb_next.isEnabled = true
         cb_generate.isEnabled = false
+        cb_fromPHP.isHidden = false
+        cb_test.isHidden = false
+        cb_connect.isHidden = false
+        cb_settings.isHidden = false
         remove(asChildViewController: v_updatable)
         remove(asChildViewController: v_viewtype)
       }
@@ -123,6 +132,11 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         cb_back.isEnabled = true
         cb_next.isEnabled = true
         cb_generate.isEnabled = false
+        cb_fromPHP.isHidden = true
+        cb_test.isHidden = true
+        cb_connect.isHidden = true
+        cb_settings.isHidden = true
+
         remove(asChildViewController: v_viewtype)
     }
     
@@ -134,6 +148,11 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         cb_next.isEnabled = false
         v_updatable.view.isHidden = true
         v_sql.view.isHidden = true
+        cb_fromPHP.isHidden = true
+        cb_test.isHidden = true
+        cb_connect.isHidden = true
+        cb_settings.isHidden = true
+
         remove(asChildViewController: v_updatable)
       }
 
@@ -161,9 +180,7 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
             }
         }
 
-        // onceki projeye ait degiskenleri resetle
-        gs_search_fields = []
-        gs_last_appName = gs_appName
+        
         of_create_php()
         of_create_swift()
         of_update_storyboard()
@@ -172,6 +189,46 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     }
     
         
+    @IBAction func cb_test_clicked(_ sender: Any) {
+        let ls_sql = (v_sql.tv_sql.documentView! as! NSTextView).string.of_trim()
+        database().of_test_sql(ls_sql!)
+     }
+  
     
+     
+    
+    @IBAction func cb_start_php_clicked(_ sender: Any) {
+        let ls_select_php_path = of_getFolderName(pickFolder :false)
+           
+        var ls_file = ls_select_php_path.of_right("/", lastpos: true)
+        if ls_file!.count == 0{
+            return
+        }
+        
+
+        if ls_select_php_path.of_right("_")?.lowercased() != "select.php"{
+            messagebox("Error", "You should select PHP file for select SQL")
+            return
+        }
+ 
+        let ls_php_content = file().of_read(ls_select_php_path)
+        if ls_php_content == ""{
+            return
+        }
+   
+        let li_pos1 = ls_php_content.of_pos("$sql")
+        let li_pos2 = ls_php_content.of_pos(";",starting: li_pos1)
+         
+        var ls_sql = ls_php_content.of_mid(location: li_pos1, length: li_pos2 - li_pos1) ?? ""
+        ls_sql = ls_sql.of_left(ls_sql.count - 1)!
+        ls_sql = ls_sql.of_right("\"")!
+        
+        ls_file = ls_file!.of_left("_")
+        v_sql.tf_app_name.stringValue = ls_file!
+        v_sql.tv_sql.documentView?.selectAll(sender)
+        v_sql.tv_sql.documentView!.insertText(ls_sql)
+    }
+    
+ 
     
 }

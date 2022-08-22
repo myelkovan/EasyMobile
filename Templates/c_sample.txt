@@ -3,13 +3,12 @@ import UIKit
 
 
 
-class #NAME#: UITableViewCell,c_base {
+class #NAME#: UITableViewCell {
 
 	#IBOUTLET_LIST#
     
 
-	func of_setRow(dataobject: d_base, indexPath: IndexPath ){
-		let row = (dataobject as! #DATA_MODEL_NAME#).data[indexPath.row]
+	func setRow(row: #DATA_MODEL_NAME#.str_data ){
 			#OBJECT_VALUE_SET#
 	}
   

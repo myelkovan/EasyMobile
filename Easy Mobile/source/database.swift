@@ -61,9 +61,9 @@ class database{
         if let con = of_connect(){
             do {
                 //veritabanındaki tablo ve alan adlarını oku
-                let ls_sql = "SELECT table_name, COLUMN_NAME, COLUMN_TYPE, column_default, is_nullable, data_type, CHARACTER_OCTET_LENGTH, NUMERIC_PRECISION, column_key FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = Database() and 1=? order by ORDINAL_POSITION"
+                let ls_sql = "SELECT table_name, COLUMN_NAME, COLUMN_TYPE, column_default, is_nullable, data_type, CHARACTER_OCTET_LENGTH, NUMERIC_PRECISION, column_key FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = Database() and 1=? order by table_name"
 
-
+               
                 let stmt = try con.prepare(ls_sql)
                 let smtp = try stmt.query([1])
                    

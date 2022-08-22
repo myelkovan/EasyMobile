@@ -40,6 +40,8 @@
 		B45AC4382860F4E5008BAE6A /* php.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45AC4372860F4E5008BAE6A /* php.swift */; };
 		B4C6E93028733E2300DE918F /* v_connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6E92F28733E2300DE918F /* v_connect.swift */; };
 		B4F3550928966A610076F1B9 /* globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F3550828966A610076F1B9 /* globals.swift */; };
+		DDE237DD28B299F0003C5A6B /* v_tables.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE237DC28B299F0003C5A6B /* v_tables.swift */; };
+		DDE237DF28B2AADA003C5A6B /* v_tables.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE237DE28B2AADA003C5A6B /* v_tables.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,8 @@
 		B4C6E92F28733E2300DE918F /* v_connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = v_connect.swift; sourceTree = "<group>"; };
 		B4C76C9C288064CE009F5344 /* Easy_Mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Easy_Mobile.entitlements; sourceTree = "<group>"; };
 		B4F3550828966A610076F1B9 /* globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = globals.swift; sourceTree = "<group>"; };
+		DDE237DC28B299F0003C5A6B /* v_tables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = v_tables.swift; sourceTree = "<group>"; };
+		DDE237DE28B2AADA003C5A6B /* v_tables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = v_tables.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,7 @@
 				B450B41128664238008A5955 /* v_settings.swift */,
 				B450B41728685A92008A5955 /* v_updatable.swift */,
 				B450B4192868F705008A5955 /* v_viewtype.swift */,
+				DDE237DE28B2AADA003C5A6B /* v_tables.swift */,
 				B4213F2A28702D9A00BA96CD /* v_columns.swift */,
 				B4F3550828966A610076F1B9 /* globals.swift */,
 				B47A16B72880125A00B04F7B /* source */,
@@ -126,6 +131,7 @@
 				B43D9F6B285CE4C4002C998D /* ViewController.swift */,
 				B4C76C9C288064CE009F5344 /* Easy_Mobile.entitlements */,
 				B43D9F6D285CE4C9002C998D /* Assets.xcassets */,
+				DDE237DC28B299F0003C5A6B /* v_tables.swift */,
 			);
 			path = "Easy Mobile";
 			sourceTree = "<group>";
@@ -267,7 +273,9 @@
 				B43D9F7B285CE4F1002C998D /* v_sql.swift in Sources */,
 				B4C6E93028733E2300DE918F /* v_connect.swift in Sources */,
 				B43D9F96285CE5E4002C998D /* tests.swift in Sources */,
+				DDE237DD28B299F0003C5A6B /* v_tables.swift in Sources */,
 				B43D9F9F285DABF8002C998D /* sql.swift in Sources */,
+				DDE237DF28B2AADA003C5A6B /* v_tables.swift in Sources */,
 				B4F3550928966A610076F1B9 /* globals.swift in Sources */,
 				B450B41228664238008A5955 /* v_settings.swift in Sources */,
 				B440EEB92870EF8500E23585 /* storyboard.swift in Sources */,

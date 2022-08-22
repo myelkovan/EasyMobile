@@ -14,6 +14,7 @@ import Foundation
 
 func of_update_storyboard(){
     var ls_template = ""
+    var ls_template_final = ""
     var ls_object_name = ""
     var ls_connection = ""
     var ls_object_id = ""
@@ -31,7 +32,7 @@ func of_update_storyboard(){
     }
   
     //create edilecek objelerin default kodlari
-    let ls_textfield = "<textField opaque=\"NO\" enabled=\"NO\" contentMode=\"scaleToFill\" contentHorizontalAlignment=\"left\" contentVerticalAlignment=\"center\" " +
+    var ls_textfield = "<textField opaque=\"NO\" enabled=\"NO\" contentMode=\"scaleToFill\" contentHorizontalAlignment=\"left\" contentVerticalAlignment=\"center\" " +
         "borderStyle=\"roundedRect\" textAlignment=\"natural\" minimumFontSize=\"17\" translatesAutoresizingMaskIntoConstraints=\"NO\" id=\"#ID30#\">\r\n\t\t\t\t" +
         "<rect key=\"frame\" x=\"20\" y=\"14\" width=\"340\" height=\"34\"/>\r\n\t\t\t\t" +
         "<fontDescription key=\"fontDescription\" type=\"system\" pointSize=\"14\"/>\r\n\t\t\t\t" +
@@ -39,7 +40,7 @@ func of_update_storyboard(){
         "</textField>\r\t\t\t\t"
 
 
-    let ls_label = "<label opaque=\"NO\" userInteractionEnabled=\"NO\" contentMode=\"left\" horizontalHuggingPriority=\"251\"  verticalHuggingPriority=\"251\" fixedFrame=\"YES\"\r\n" +
+    var ls_label = "<label opaque=\"NO\" userInteractionEnabled=\"NO\" contentMode=\"left\" horizontalHuggingPriority=\"251\"  verticalHuggingPriority=\"251\" fixedFrame=\"YES\"\r\n" +
            "text=\"Label\" textAlignment=\"natural\" lineBreakMode=\"tailTruncation\" numberOfLines=\"0\" baselineAdjustment=\"alignBaselines\" adjustsFontSizeToFit=\"NO\" translatesAutoresizingMaskIntoConstraints=\"NO\" id=\"#ID30#\">\r\n\t\t\t\t" +
            "<rect key=\"frame\" x=\"20\" y=\"14\" width=\"374\" height=\"35\"/>\r\n\t\t\t\t" +
            "<autoresizingMask key=\"autoresizingMask\" flexibleMaxX=\"YES\" flexibleMaxY=\"YES\"/>\r\n\t\t\t\t" +
@@ -48,7 +49,7 @@ func of_update_storyboard(){
            "<nil key=\"highlightedColor\"/>\r\n\t\t\t\t" +
        "</label>\r\n"
 
-    let ls_searchbar = "<searchBar key=\"tableHeaderView\" contentMode=\"redraw\" id=\"#ID100#\">\r\n\t\t\t\t" +
+    let ls_searchbar1 = "<searchBar key=\"tableHeaderView\" contentMode=\"redraw\" id=\"#ID100#\">\r\n\t\t\t\t" +
         "<rect key=\"frame\" x=\"0.0\" y=\"0.0\" width=\"414\" height=\"44\"/>\r\n\t\t\t\t" +
         "<autoresizingMask key=\"autoresizingMask\" widthSizable=\"YES\" flexibleMaxY=\"YES\"/>\r\n\t\t\t\t" +
         "<textInputTraits key=\"textInputTraits\"/>\r\n\t\t\t\t" +
@@ -90,6 +91,12 @@ func of_update_storyboard(){
     if ls_template == ""{
         return
     }
+    
+    
+    
+    let ls_searchbar = ls_template.of_mid(first: "<searchBar", last: "</searchBar>")!
+    
+  
 
     //default yapılması gereken değişiklikleri yap
     ls_template = ls_template.replacingOccurrences(of: "#ID1#", with: of_generateID())
@@ -120,7 +127,11 @@ func of_update_storyboard(){
             ls_obj_template = ls_imageview
             li_add = 100
         }else{
-           if gsA_updatable_columns.contains(row.column_name!){
+           
+            if row.column_name == gs_pk{
+                continue
+            }
+            if gsA_updatable_columns.contains(row.column_name!){
                 if row.column_lenght! < 50{
                     ls_object_name = "tf_" + row.column_name!
                     ls_obj_template = ls_textfield
@@ -146,6 +157,9 @@ func of_update_storyboard(){
         
         //üretilen obje için cell için bağlantı linklerini oluştur
         ls_connection += "<outlet property=\"" + ls_object_name + "\" destination=\"" + ls_object_id + "\" id=\"" + of_generateID() + "\"/>\r\t\t\t\t"
+
+
+
     }
 
     //yeni obje ve connection'ları asıl template içine yerleştir
@@ -156,7 +170,7 @@ func of_update_storyboard(){
     //search field seçilmişse searchbar templatinden obje oluştur
     ls_obj_template = ""
     ls_connection = ""
-    if gs_search_fields.count > 0{
+    if search_fields.count > 0{
         ls_obj_template = ls_searchbar
         let ls_searchbar_id = of_generateID()
         ls_obj_template=ls_obj_template.replacingOccurrences(of: "#ID100#", with: ls_searchbar_id)
@@ -164,7 +178,7 @@ func of_update_storyboard(){
         
         //searchbar view objemize outlet olarak ekleniyor
         ls_connection = "<outlet property=\"searchbar\" destination=\"" + ls_searchbar_id + "\" id=\"" + of_generateID() + "\"/>\r\t\t\t\t"
-        ls_connection = "<connections>\r" + ls_connection + "</connections>"
+   
 
         //collectionview için küçük bir değişiklik
         if gi_viewtype == 2{
@@ -172,15 +186,104 @@ func of_update_storyboard(){
         }
     }
     
-    ls_template = ls_template.replacingOccurrences(of: "#SEARCHBAR#", with: ls_obj_template)
+    //ls_template = ls_template.replacingOccurrences(of: "#SEARCHBAR#", with: ls_obj_template)
+    ls_template = ls_template.replacingOccurrences(of: ls_searchbar, with: ls_obj_template)
     ls_template = ls_template.replacingOccurrences(of: "#IDVIEW#", with: of_generateID())
-    ls_template = ls_template.replacingOccurrences(of: "#CONNECTION_SEARCHBAR#", with: ls_connection)
+    ls_template_final = ls_template
+   
+    
+    
+    
+    
+    
+    
+    if gb_insert {
+        //Insert row islemi varsa edit view olusturulacak***************************************************
+        ls_template = file().of_read(gs_template_folder + "/storyboard_edit_view.txt")
+        if ls_template == ""{
+            return
+        }
+        let ls_view_id = of_generateID()
+        //default yapılması gereken değişiklikleri yap
+        ls_template = ls_template.replacingOccurrences(of: "#ID1#", with: of_generateID())
+        ls_template = ls_template.replacingOccurrences(of: "#IDVIEW#", with: ls_view_id)
+        ls_template = ls_template.replacingOccurrences(of: "#VIEVNAME#", with: "v_" + gs_appName + "_edit")
+        ls_template = ls_template.replacingOccurrences(of: "#ID2#", with: of_generateID())
+       
+        let ls_label_temp       = ls_template.of_mid(first: "<label",     last: "</label>")!
+        let ls_textfield_temp   = ls_template.of_mid(first: "<textField", last: "</textField>")!
+        let ls_imageview_temp   = ls_template.of_mid(first: "<imageView", last: "</imageView>")!
 
+        var ls_labels = ""
+        var ls_textfields = ""
+        var ls_outlets = ""
+        var y = 100
+        for row in SqlColumns{
+            if row.column_name == gs_pk{
+                continue
+            }
+            
+            ls_label = ls_label_temp.replacingOccurrences(of: "#ID#", with: of_generateID())
+            ls_label = ls_label.replacingOccurrences(of: "#LABEL_TEXT#", with: row.column_name!)
+            ls_label = ls_label.replacingOccurrences(of: "#Y#", with: String(y))
+            ls_labels += ls_label + "\r\t\t\t\t"
+            
+            let ls_obj_id = of_generateID()
+            ls_textfield = ls_textfield_temp.replacingOccurrences(of: "#ID#", with: ls_obj_id)
+            ls_textfield = ls_textfield.replacingOccurrences(of: "#Y#", with: String(y + 50))
+            ls_textfields += ls_textfield + "\r\t\t\t\t"
+
+            ls_outlets += "<outlet property=\"tf_" + row.column_name! + "\" destination=\"" + ls_obj_id + "\" id=\"" + of_generateID() + "\"/>\r\t\t\t\t"
+
+
+            y += 100
+        }
+
+        
+        var ls_imageview1 = ""
+        if gs_picture_field.count > 0 {
+            y += 100
+            ls_imageview1 = ls_imageview_temp.replacingOccurrences(of: "#ID#", with: of_generateID())
+            ls_imageview1 = ls_imageview1.replacingOccurrences(of: "#Y#", with: String(y))
+        }
+
+        //save button
+        ls_template = ls_template.replacingOccurrences(of: "#ID3#", with: of_generateID())
+        ls_template = ls_template.replacingOccurrences(of: "#BUTTON_Y#", with: String(y + 100))
+        ls_template = ls_template.replacingOccurrences(of: "#ID4#", with: ls_view_id)
+        ls_template = ls_template.replacingOccurrences(of: "#ID5#", with: of_generateID())
+        ls_template = ls_template.replacingOccurrences(of: "#ID6#", with: of_generateID())
+        ls_template = ls_template.replacingOccurrences(of: "#ID7#", with: of_generateID())
+        ls_template = ls_template.replacingOccurrences(of: "#ID8#", with: of_generateID())
+        ls_template = ls_template.replacingOccurrences(of: "#OUTLET#", with: ls_outlets)
+       
+        ls_template = ls_template.replacingOccurrences(of: ls_label_temp, with: ls_labels)
+        ls_template = ls_template.replacingOccurrences(of: ls_textfield_temp, with: ls_textfields)
+        ls_template = ls_template.replacingOccurrences(of: ls_imageview_temp, with: ls_imageview1)
+
+        if ls_connection.count > 0{
+            ls_connection += "\r"
+        }
+        ls_connection += "<segue destination=\"" + ls_view_id + "\" kind=\"show\" identifier=\"toEdit" + gs_appName+"\" id=\""+of_generateID()+"\"/>\r\t\t\t"
+
+    }
+    
+        
+    
+   
+  
+    ls_template_final += ls_template + "\r"
+    ls_connection = "<connections>\r" + ls_connection + "</connections>"
+   
+    ls_template_final = ls_template_final.replacingOccurrences(of: "#CONNECTION_SEARCHBAR#", with: ls_connection)
+   
+    
+    
     
     //gerçek storyboard içeriğini al
     var ls_storyboard_path = ""
     if gs_storyboard_path == "" {
-        messagebox("Select StoryBoard File","Please select storyboard file in your target Xcode project. If you don't select a file, no view will be created for storyboard.")
+        messagebox("Select StoryBoard File","Please select storyboard file in your target Xcode project. If you don't select any file, no view will be created for storyboard.")
         ls_storyboard_path = of_getFolderName(pickFolder :false)
         gs_storyboard_path = ls_storyboard_path
 
@@ -200,15 +303,14 @@ func of_update_storyboard(){
     var ls_content = file().of_read(ls_storyboard_path )
     
     //temlateden alıp düzenlediğimizi gerçeğin içine </scenes> sonrasina ekle
-    ls_content = ls_content.of_left("</scenes>")! + "\r" + ls_template + "\r</scenes>" +  ls_content.of_right("</scenes>")!
+    ls_content = ls_content.of_left("</scenes>")! + "\r" + ls_template_final + "\r</scenes>" +  ls_content.of_right("</scenes>")!
     
     // hedef dosyaya yaz
     let documentsPath = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true)[0] as NSString?
     gs_created_storyboard_path = "file://" + documentsPath!.appendingPathComponent("SWIFT/" + gs_appName + "/" + ls_file)
     file().of_write(filename: "SWIFT/" + gs_appName + "/" + ls_file, content :ls_content)
     
-    print("SWIFT/" + gs_appName + "/" + ls_file)
-    print(gs_created_storyboard_path)
+ 
 }
 
     

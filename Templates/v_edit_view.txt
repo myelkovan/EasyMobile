@@ -1,0 +1,33 @@
+import Foundation
+import UIKit
+
+
+class #NAME#: UIViewController {
+	#IBOUTLET_LIST#	
+	var Parent:#PARENTVIEWNAME#?
+	private var row :#DATA_MODEL_NAME#.str_data!
+  
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		row = Parent!.dataobject.data[Parent!.selectedIndexPath!.row]
+		#OBJECT_VALUE_SET# 
+	}
+    
+    
+    
+    @IBAction func cb_save_clicked(_ sender: Any) {
+		#OBJECT_VALUE_GET# 
+        
+		#NULL_CHECK# 		
+
+		#OBJECT_VALUE_TOROW#
+ 
+		Parent!.dataobject.of_update(row :row, indexPath :Parent!.selectedIndexPath!)
+		Parent!.tableView.reloadRows(at: [Parent!.selectedIndexPath!], with: .none)
+		self.navigationController?.popViewController(animated: true)
+	}
+  
+    
+}
+
+  

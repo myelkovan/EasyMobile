@@ -13,14 +13,20 @@ class #NAME#: UITableViewController{
 		dataobject.of_retrieve()
 	}
 
+
+
+
+
    
+	// TABLEVIEW MUST ********************************************************************************************
+	//How many rows or sections will be in tableview
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return dataobject.data.count
 	}
 
    
 
-
+	// To Create rows send rows data to cell object
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell:#CELL_NAME# = self.tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! #CELL_NAME#
 
@@ -31,6 +37,7 @@ class #NAME#: UITableViewController{
 
 
 	#SEARCH#
+	// Search expression
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		if searchText == "" {
 			self.searchbar.text = ""
@@ -40,19 +47,39 @@ class #NAME#: UITableViewController{
  			self.dataobject.data = self.dataobject.originaldata
  			self.tableView.reloadData()
  			return
+		}else{
+			dataobject.data = dataobject.originaldata.filter() { #FILTER_EXPRESSION# }
 		}
-		
-		self.dataobject.data.removeAll()
-		self.dataobject.data = self.dataobject.originaldata.filter() {
-					(#SERACH_FIELD# as NSString).contains(searchText.lowercased())}
 		self.tableView.reloadData()
 	}
 	#ENDSEARCH#
 
 
+	// TABLEVIEW MUST ********************************************************************************************
+
 }
 
 
+
+
+
+
+
+
+	/* Most used function for tableview. If you don't use delete them from here or from template
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		selectedIndexPath = indexPath
+		self.performSegue(withIdentifier: "toMessage", sender: self)
+  	}
+	
+    
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "toMessage"{
+ 			let target_view = segue.destination as! v_message 
+			target_view.name = dataobject.data[selectedIndexPath].name
+		}
+ 	}
+	*/
 
 
 

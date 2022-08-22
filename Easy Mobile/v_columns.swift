@@ -30,7 +30,7 @@ class v_columns: ViewController, NSTableViewDelegate, NSTableViewDataSource{
             }
         }else{
             //daha önce seçilen search alanlarini seç
-            for col in gs_search_fields{
+            for col in search_fields{
                 ls_search_field = col.column_name!
                 print(ls_search_field)
                 if let li_row = SqlColumns.index(where: { $0.column_name == ls_search_field}) {
@@ -44,13 +44,13 @@ class v_columns: ViewController, NSTableViewDelegate, NSTableViewDataSource{
   
     override func viewDidDisappear() {
         if ii_searchORpicture == 1{
-            gs_search_fields = []
+            search_fields = []
         }
         
         for row in 0...SqlColumns.count{
             if tableview.isRowSelected(row){
                 if ii_searchORpicture == 1{
-                    gs_search_fields.append(SqlColumns[row])
+                    search_fields.append(SqlColumns[row])
                 }else{
                     gs_picture_field = SqlColumns[row].column_name!
                 }
@@ -96,7 +96,7 @@ class v_columns: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     
     func of_finish()->Int {
         if ii_searchORpicture == 1{
-            if gs_search_fields.count == 0{
+            if search_fields.count == 0{
                 messagebox("Error","Please select column for search!")
                 return -1
             }

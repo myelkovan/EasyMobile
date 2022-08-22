@@ -1,9 +1,10 @@
 //
-//  v_updatable.swift
-//  MY Code Generator
+//  v_tables.swift
+//  Easy Mobile
 //
-//  Created by Murat Yelkovan on 26.06.2022.
+//  Created by Murat Yelkovan on 21.08.2022.
 //
+
 
 import Foundation
 import SwiftUI
@@ -11,13 +12,14 @@ import SwiftUI
 
 
 
-class v_updatable: ViewController, NSTableViewDelegate, NSTableViewDataSource{
+class v_tables: ViewController, NSTableViewDelegate, NSTableViewDataSource{
     
     @IBOutlet weak var tableview1: NSTableView!
     @IBOutlet weak var tableview2: NSTableView!
-    var TableColumns = [column]()
-    
-    
+    var columns = [column]()
+    var columns2 = [column]()
+    var tables = [String]()
+  
    
     
     override func viewDidLoad() {
@@ -25,46 +27,54 @@ class v_updatable: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         tableview1.dataSource = self
         tableview2.delegate = self
         tableview2.dataSource = self
+        if columns.count == 0 {
+            database().of_getTables()
+        }
+        tables = Array(Set(DbColumns.map{$0.table_name}))
         tableview1.reloadData() // bu olmazsa geri tuşuna basıp sqli değiştirip gelirsen yeni tablo adı görünmez
     }
     
+    
+
  
+    //tabloname ve column name row sayilari
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        if (tableView == tableview1){
+            return tables.count
+        }else{
+            return columns.count
+        }
+    }
+ 
+
     //Soldaki tableviewden tablo adi secilince sagda columnlari listele
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool{
       if (tableView == tableview1){
-            gs_updatable_table = gsA_table_names[row]
-            TableColumns = DbColumns.filter() {$0.table_name.lowercased() == gs_updatable_table}
+  
+          if tableview1.isRowSelected(row) {
+              columns += DbColumns.filter() {$0.table_name.lowercased() == tables[row]}
+          }else{
+              columns = columns.filter() {$0.table_name.lowercased() != tables[row]}
+          }
             tableview2.reloadData()
        }
        return true
     }
 
      
-    //tabloname ve column name row sayilari
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        if (tableView == tableview1){
-            return gsA_table_names.count
-        }else{
-            return TableColumns.count
-        }
-    }
-    
+   
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let cell = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as? NSTableCellView else { return nil }
-       
+    
         switch (tableColumn?.identifier)!.rawValue{
         case "tablename":
-            cell.textField?.stringValue = gsA_table_names[row]
-        case "columnname":
-            cell.textField?.stringValue = TableColumns[row].column_name!
-        case "nullable":
-            cell.textField?.stringValue = ""
-            if (TableColumns[row].is_null == "NO"){
-                if let def =  TableColumns[row].column_default{
-                }else{
-                    cell.textField?.stringValue = "YES"
-                }
-            }
+            cell.textField?.stringValue = tables[row]
+        case "alias":
+            cell.textField?.stringValue = tables[row].of_left(1)!
+         case "columnname":
+            cell.textField?.stringValue = columns[row].column_name!
+        case "columntype":
+            cell.textField?.stringValue = columns[row].column_type!
 
         default:
             return cell
@@ -72,16 +82,57 @@ class v_updatable: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         return cell
     }
     
+    @IBAction func cb_cancel_clicked(_ sender: Any) {
+        self.view.window?.close()
+    }
     
-   
     
-    func of_finish()->Int {
-        gsA_updatable_columns = []
-        if TableColumns.count == 0{
-            messagebox("Error","Please select updatable table and columns!")
-            return -1
+    @IBAction func cb_ok_clicked(_ sender: Any) {
+        var ls_tables : [String] = []
+        var ls_sql = ""
+      
+        
+         for row in 0...tables.count - 1 {
+           // if tableview1.isRowSelected(row) {
+               
+               let column = tableview1.tableColumn(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "alias"))
+                let cell: NSTextFieldCell = (column?.dataCell(forRow: row))! as! NSTextFieldCell
+                print(cell. stringValue)
+                //print(cell.textField.raw)
+               
+                
+            //}
+        }
+
+        
+        for i in 0...columns.count - 1 {
+            if tableview2.isRowSelected(i) {
+                
+                if ls_tables.contains(columns[i].table_name) == false{
+                    ls_tables.append(columns[i].table_name)
+                }
+                
+                ls_sql += columns[i].column_name!
+                if i < columns.count - 1{
+                    ls_sql += ", "
+                }
+                
+            }
         }
         
+        if ls_sql.count > 0{
+            gs_paste_sql = "Select " + ls_sql + " From " + ls_tables.joined(separator: ",")
+            sqlview!.tv_sql.documentView!.selectAll(1)
+            sqlview!.tv_sql.documentView!.insertText(gs_paste_sql)
+        }
+        self.view.window?.close()
+
+       
+    }
+    
+    /*
+    func of_finish()->Int {
+       
         // secilmeyen alanlara bakacagiz bunlarin icinde not null ve default degeri olmayan alan varsa
         // bu alani secmelisiniz diye mesaj verecegiz ayni zamanda secilen alanlari gsA_updatable_columns
         // array ine dolduruyoruz
@@ -195,7 +246,7 @@ class v_updatable: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         return 1
      }
     
-   
+   */
     
   
  

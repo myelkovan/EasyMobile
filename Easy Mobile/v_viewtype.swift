@@ -33,7 +33,7 @@ class v_viewtype: ViewController{
     
     //resim veya search alanlari check yapildi ama alan secilmediyse uyar
     func of_finish() -> Int{
-        if cbx_search.state == NSButton.StateValue.on && gs_search_fields.count == 0 {
+        if cbx_search.state == NSButton.StateValue.on && search_fields.count == 0 {
             messagebox("","Please select search field!")
             return -1
         }
@@ -52,6 +52,7 @@ class v_viewtype: ViewController{
         cb_singleview.alphaValue = 0.2
         cbx_search.isEnabled = true
         cb_search_field.isEnabled = true
+        cbx_picture.isEnabled = true
         gi_viewtype = 1
     }
 
@@ -115,7 +116,7 @@ class v_viewtype: ViewController{
             cb_search_field.isEnabled = true
         }else{
             cb_search_field.isEnabled = false
-            gs_search_fields = []
+            search_fields = []
         }
      }
 

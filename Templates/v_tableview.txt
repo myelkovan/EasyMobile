@@ -2,54 +2,89 @@ import Foundation
 import UIKit
 
 
-class #NAME#: MYUITableViewController{
+class #NAME#: UITableViewController{
 	#IBOUTLET_LIST#
 	var dataobject = #DATA_MODEL#()
+	var selectedIndexPath :IndexPath?
 
        
 
+	//VIEW *************************************************************************************
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.d_object = dataobject
 		dataobject.of_retrieve()
+	}
+
+
+   
+	//TABLEVIEW MUST ***************************************************************************
+	//Row and Section Count
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return dataobject.data.count
 	}
 
    
 
-
-	#SEARCH#
-	override func of_filterForSearch(_ searchText: String)->Int {
-		if searchText.count == 0 {
-			dataobject.data = dataobject.originaldata
-		}else{
-			dataobject.data = dataobject.originaldata.filter() { #FILTER_EXPRESSION# }
-		}
-		return dataobject.data.count
+ 	//Create Cell - sends row's data to cell object
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell:#CELL_NAME# = self.tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! #CELL_NAME#
+		cell.setRow(row: dataobject.data[indexPath.row])
+		return cell
 	}
-	#ENDSEARCH#
 
 	
+	//TABLEVIEW OPTIONAL ***********************************************************************
+	#DELETE#
+	//Allow delete rows
+	override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+		return UITableViewCell.EditingStyle.delete;
+	}
+    
+    
+	//Row swiped and deleted
+	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			dataobject.of_delete(#PK#: dataobject.data[indexPath.row].#PK#, indexPath: indexPath )
+			tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+		}
+	}
+	#ENDDELETE#
 
-	/* Most used function for tableview. If you don't use delete them from here or from template
+	#TOEDITVIEW#
+	//Row selected
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		selectedIndexPath = indexPath
-		self.performSegue(withIdentifier: "toMessage", sender: self)
+		self.performSegue(withIdentifier: "#SEGUE_NAME#", sender: self)
   	}
 	
     
+	//Before going target View
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == "toMessage"{
- 			let target_view = segue.destination as! v_message 
-			target_view.name = dataobject.data[selectedIndexPath].name
+		if segue.identifier == "#SEGUE_NAME#"{
+ 			let target_view = segue.destination as! #TARGET_VIEW#
+			target_view.Parent = self
 		}
  	}
-	*/
+	#ENDTOEDITVIEW#
+
+
+
+	#SEARCH#
+	//SearchBar
+	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+		if searchText == "" {
+			DispatchQueue.main.async {
+ 				self.searchbar.endEditing(true)
+			}
+ 			self.dataobject.data = self.dataobject.originaldata
+ 		}else{
+			dataobject.data = dataobject.originaldata.filter() { #FILTER_EXPRESSION# }
+		}
+		self.tableView.reloadData()
+	}
+	#ENDSEARCH#
+
 
 
 }
 
-
-
-
-
-  
