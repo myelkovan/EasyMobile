@@ -64,9 +64,10 @@ class v_main: ViewController, NSTableViewDelegate, NSTableViewDataSource{
         preferredContentSize = view.frame.size
         //sql ekraniniekrana goster
         add(asChildViewController: v_sql)
+        sqlview = v_sql
     }
     
-    
+  
     
     @IBAction func cb_next_clicked(_ sender: Any) {
         

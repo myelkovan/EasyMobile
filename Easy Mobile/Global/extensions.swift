@@ -139,13 +139,24 @@ extension String {
         if self.count == 0{
             return self
         }
-        //guard self.count > location + length else { return nil }
         
         let start = index(startIndex, offsetBy: location - 1)
         let end = index(startIndex, offsetBy: location + length - 1)
         return substring(with: start..<end)
     }
  
+    func of_mid(first: String, last: String) -> String? {
+        if self.count == 0{
+            return self
+        }
+        let location = self.of_pos(first)
+        let length = (self.of_pos(last) - location) + last.count
+
+        let start = index(startIndex, offsetBy: location - 1)
+        let end = index(startIndex, offsetBy: location + length - 1)
+        print(substring(with: start..<end))
+        return substring(with: start..<end)
+    }
     
     
     func of_trim() -> String?{

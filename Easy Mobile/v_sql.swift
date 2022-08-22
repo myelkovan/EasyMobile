@@ -24,8 +24,7 @@ class v_sql: ViewController{
     }
     
     
-    
-    
+  
     
     func of_finish()->Int {
          

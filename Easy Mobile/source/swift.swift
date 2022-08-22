@@ -13,8 +13,11 @@ func of_create_swift(){
     var ls_template = ""
     var ls_outlet_list = ""
     var ls_value_set = ""
+    var ls_value_get = ""
+    var ls_value_to_row = ""
     var ls_prefix = ""
     var ls_object = ""
+    var ls_null_check = ""
  
     if (gs_template_folder == ""){
         return
@@ -48,20 +51,42 @@ func of_create_swift(){
                         ls_object = "UILabel!"
                     }
                 }
-                ls_outlet_list += "@IBOutlet weak var " + ls_prefix + row.column_name! + ":" + ls_object + "\r\t"
-
+                if row.column_name! != gs_pk{
+                    ls_outlet_list += "@IBOutlet weak var " + ls_prefix + row.column_name! + ":" + ls_object + "\r\t"
+                }
                 
                 //FIXME diğer tiplere dönüşüm ele alınmalı
-                if row.column_name! != gs_picture_field{
+                if row.column_name! != gs_picture_field && row.column_name! != gs_pk{
                     if of_getSwiftType(row.column_type!) != "String"{
                         ls_value_set += ls_prefix + row.column_name! + ".text = String(row." + row.column_name! + ")\r\t\t\t"
+                        ls_value_to_row += "row." + row.column_name! + " = " + of_getSwiftType(row.column_type!) + "(" + row.column_name! + "!)!\r\t\t"
                     }else{
                         ls_value_set += ls_prefix + row.column_name! + ".text = row." + row.column_name! + "\r\t\t\t"
+                        ls_value_to_row += "row." + row.column_name! + " = " + row.column_name! + "!\r\t\t"
+
                     }
+                    ls_value_get += "let " + row.column_name! + " = " + ls_prefix + row.column_name! + ".text\r\t\t"
                 }
+                
+                
+                //editview icin bos kontrolu
+                //alan not nul ve veri girilmezse mesaj ver
+                
+                if row.is_null?.lowercased() != "yes" && row.column_name != gs_pk{
+                    if ls_null_check.count > 0{
+                        ls_null_check += " || "
+                    }
+                    ls_null_check += row.column_name! + "!.count == 0"
+                }
+                
+                
             }
-                
-                
+            
+            if ls_null_check.count > 0{
+                ls_null_check = "if " + ls_null_check + "{" + "\r\t\t\t" + "messagebox(title:\"\", message:\"Please Enter text\")" + "\r\t\t\t" + "return" + "\r\t\t" + "}\r"
+            }
+            
+        
             //image seçilmişse image okuma komutu ekle
             if gs_picture_field.count > 0 {
                 let ls_picture = "p_" + gs_picture_field + ".loadImage(\"PICTURES/\" + String(row." + gs_picture_field + "))" + "\r\t\t\t"
@@ -78,13 +103,14 @@ func of_create_swift(){
                 return
             }
            
-            
+
             
             //standart değişiklikleri yap
             ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "c_" + gs_appName)
-            ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL_NAME#", with: "d_" + gs_appName)
-            ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
-            ls_template = ls_template.replacingOccurrences(of: "#OBJECT_VALUE_SET#", with: ls_value_set)
+             ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL_NAME#", with: "d_" + gs_appName)
+             ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
+             ls_template = ls_template.replacingOccurrences(of: "#OBJECT_VALUE_SET#", with: ls_value_set)
+
 
             
             if gi_viewtype == 2{
@@ -138,36 +164,38 @@ func of_create_swift(){
             }
             
             //view için outlet listesi oluştur
-            ls_outlet_list = ""
+            var ls_outlet_list2 = ""
             if search_fields.count > 0{
                 ls_template = ls_template.replacingOccurrences(of: "UITableViewController", with: "UITableViewController, UISearchBarDelegate")
-                ls_outlet_list = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
+                ls_outlet_list2 = "@IBOutlet weak var searchbar: UISearchBar!\r\t"
             }
 
             ls_template = of_addFunc(template:ls_template, key:"#SEARCH#", addremove: search_fields.count > 0)
+            
+            //tableview delete işlemleri
+            ls_template = of_addFunc(template:ls_template, key:"#DELETE#", addremove: gb_delete)
+
+            
+            //tableview insert işlemleri
+            ls_template = of_addFunc(template:ls_template, key:"#TOEDITVIEW#", addremove: gb_insert)
+            if gb_insert == false {
+                ls_template = ls_template.replacingOccurrences(of: "var selectedIndexPath :IndexPath?", with: "")
+            }
+         
+            //FIXME
+            //ls_template = of_addLine(add:"var selectedIndexPath :IndexPath?", after:"var dataobject =")
+            //func of_addLine(add:String, after:String)->String{
+            //    return ls_template
+            //}
+       
         }
         
             
-        //delete işlemleri ---------------------------
-        ls_template = of_addFunc(template:ls_template, key:"#DELETE#", addremove: gb_delete)
-
-        
-        //insert işlemleri ---------------------------
-        ls_template = of_addFunc(template:ls_template, key:"#TOEDITVIEW#", addremove: gb_insert)
-        if gb_insert == false {
-            ls_template = ls_template.replacingOccurrences(of: "var selectedIndexPath :IndexPath?", with: "")
-         }
-     
-        //FIXME
-        //ls_template = of_addLine(add:"var selectedIndexPath :IndexPath?", after:"var dataobject =")
-        //func of_addLine(add:String, after:String)->String{
-        //    return ls_template
-        //}
-        
+       
         
         //Genel değişiklikleri yap
         ls_template = ls_template.replacingOccurrences(of: "#SEGUE_NAME#", with:"toEdit" + gs_appName )
-        ls_template = ls_template.replacingOccurrences(of: "#TARGET_VIEW#", with: "v_edit_" + gs_appName)
+        ls_template = ls_template.replacingOccurrences(of: "#TARGET_VIEW#", with: "v_" + gs_appName + "_edit")
         ls_template = ls_template.replacingOccurrences(of: "#PK#", with: gs_pk)
         ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
         ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "v_" + gs_appName)
@@ -179,6 +207,33 @@ func of_create_swift(){
         //Save file
         file().of_write(filename: "SWIFT/" + gs_appName + "/" + "v_" + gs_appName + ".swift", content :ls_template)
 
+        
+        
+        //EDIT - VIEW ***********************************************************************
+        //template'i oku
+        if gi_viewtype < 3 {
+            ls_template = of_read_file("v_edit_view.txt")
+          
+            if ls_template == ""{
+                 return
+            }
+          
+            let ls_value_set1 = ls_value_set.replacingOccurrences(of: "\t\t\t", with: "\t\t")
+            
+            //Genel değişiklikleri yap
+           
+            ls_template = ls_template.replacingOccurrences(of: "#DATA_MODEL_NAME#", with: "d_" + gs_appName)
+            ls_template = ls_template.replacingOccurrences(of: "#IBOUTLET_LIST#", with: ls_outlet_list)
+            ls_template = ls_template.replacingOccurrences(of: "#NAME#", with: "v_" + gs_appName + "_edit")
+            ls_template = ls_template.replacingOccurrences(of: "#PARENTVIEWNAME#", with: "v_" + gs_appName)
+            ls_template = ls_template.replacingOccurrences(of: "#OBJECT_VALUE_SET#", with: ls_value_set1)
+            ls_template = ls_template.replacingOccurrences(of: "#OBJECT_VALUE_GET#", with: ls_value_get)
+            ls_template = ls_template.replacingOccurrences(of: "#OBJECT_VALUE_TOROW#", with: ls_value_to_row)
+            ls_template = ls_template.replacingOccurrences(of: "#NULL_CHECK#", with: ls_null_check)
+
+            //Save file
+            file().of_write(filename: "SWIFT/" + gs_appName + "/" + "v_" + gs_appName + "_edit.swift", content :ls_template)
+        }
         
     }
     
